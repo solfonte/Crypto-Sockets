@@ -7,20 +7,31 @@
 #define POSICION_KEY 4
 #define POSICION_ARCHIVO 6
 
+#include "file_reader.h"
+#include "socket.h"
 #include <stdio.h>
 #include <stdlib.h>
-/*
+
 int main(int argc, char const *argv[]) {
   if(argc != CANTIDAD_ARGUMENTOS){
     printf("ERROR: %s",argc < CANTIDAD_ARGUMENTOS? FALTAN_ARGUMENTOS:SOBRAN_ARGUMENTOS);
     return 0;
   }
+  file_reader_t file_reader;
+  file_reader_init(&file_reader);
+  socket_t socket;
+  socket_init(&socket);
+/*
   int puerto = atoi(argv[POSICION_IP]);
   char const* metodo = argv[POSICION_METODO] + 9;
   char const* key = argv[POSICION_KEY] + 6;
   printf("puerto: %i\n",puerto);
   printf("metodo: %s\n",metodo);
   printf("key: %i\n",atoi(key));
-  return 0;*/
+*/
+  file_reader_init(&file_reader);
+  socket_uninit(&socket);
+
+  return 0;
 }
 //./client 127.0.0.1 8080 --method=rc4 --key=queso < __client_stdin__
