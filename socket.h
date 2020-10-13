@@ -10,7 +10,7 @@ typedef struct{
 } socket_t;
 
 int socket_init(socket_t* self);
-int socket_uninit(socket_t* self);
+int socket_uninit(socket_t* self);//shitdown y close
 int socket_bind_and_listen(socket_t* self, const char* host, const char* service);
 int socket_accept(socket_t* listener, socket_t* peer);
 int socket_connect(socket_t* self, const char* host, const char* service);
