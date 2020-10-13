@@ -1,17 +1,24 @@
 #include "socket.h"
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
+
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <unistd.h>
+#define ERROR -1
+#define EXITO 1
 
 int socket_init(socket_t* self,struct addrinfo* resultados){
-  bool creado = false
+  bool creado = false;
   while(resultados != NULL && !creado){
-    socket->fd = socket(resultados->ai_family, resultados->ai_socktype, reultados->ai_protocol);
-    if(socket != -1){
+    self->fd = socket(resultados->ai_family, resultados->ai_socktype, resultados->ai_protocol);
+    if(self->fd != -1){
       creado = true;
     }
-    return (socket == -1? ERROR: EXITO)
   }
+  if(self->fd == -1){
+      return -1;
+  }
+    return 0;
+}
 
   //socket(int domain, int type, int protocol
-}
