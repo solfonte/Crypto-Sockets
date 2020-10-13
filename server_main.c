@@ -15,15 +15,8 @@
 
 int main(int argc, char const *argv[]) {
   char const puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY];
-  struct addrinfo hints;
-  struct addrinfo *resultados, *ptr;
-
-  hints.ai_family = AF_INET;
-  hints.ai_socktype = SOCK_STREAM;
-  hints.ai_flags = 0;
 
   socket_t socket_aceptador/*,peer*/;
-//  inicializar_hints(&hints);
   if(argc != CANTIDAD_ARGUMENTOS){
     printf("ERROR: %s",(argc < CANTIDAD_ARGUMENTOS? FALTAN_ARGUMENTOS:SOBRAN_ARGUMENTOS));
     return ERROR;
@@ -31,22 +24,16 @@ int main(int argc, char const *argv[]) {
   strncpy((char*)puerto,argv[POSICION_PUERTO],TAMANIO_PUERTO);
   strncpy((char*)metodo,argv[POSICION_METODO] + 9,TAMANIO_METODO);
   strncpy((char*)key,argv[POSICION_KEY] + 6,TAMANIO_KEY);//ver que onda por el largo
+  struct addrinfo hints;
+  struct addrinfo *resultados;//deberia estar en bind and listen
 
-  //pasar a strcpy capaz
-/*  if(validar_argumentos(argc,argv,puerto,metodo,key) == ERROR){
-    return 0;
-  }*/
+  hints.ai_family = AF_INET;
+  hints.ai_socktype = SOCK_STREAM;
+  hints.ai_flags = 0;
   int local = getaddrinfo(0,puerto, &hints,&resultados);
-  ptr = resultados;
-  int resultado = socket_init(&socket_aceptador,ptr);
-  if(resultado == ERROR){
-    printf("Fallo");//mejorar este mensaje
-  }
-  printf("s:%i\n",socket_aceptador.fd);
   printf("l:%i\n",local);
 
-  socket_bind_and_listen(&socket_aceptador, host, servicio);
-
+  socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto,resultados);
 
   printf("puerto: %i\n",atoi(puerto));
   printf("metodo: %s\n",metodo);
