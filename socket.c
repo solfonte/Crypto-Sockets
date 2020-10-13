@@ -14,11 +14,20 @@ int socket_init(socket_t* self,struct addrinfo* resultados){
     if(self->fd != -1){
       creado = true;
     }
+    resultados++;
   }
   if(self->fd == -1){
       return -1;
   }
     return 0;
 }
+/*
+int socket_bind_and_listen(socket_t* self, const char* host, const char* service){
+
+  int bind(int sockfd, const struct sockaddr *addr,socklen_t addrlen);
+  int listen(int sockfd, int backlog);
+
+}
+*/
 
   //socket(int domain, int type, int protocol

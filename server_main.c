@@ -10,21 +10,14 @@
 #define ERROR -1
 #include <stdio.h>
 #include <stdlib.h>
-/*#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>*/
 #include <string.h>
 #include "socket.h"
-
-
-
 
 int main(int argc, char const *argv[]) {
   char const puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY];
   struct addrinfo hints;
-  struct addrinfo *resultados/*, *ptr*/;
+  struct addrinfo *resultados, *ptr;
 
-  memset(&hints, 0, sizeof(struct addrinfo));
   hints.ai_family = AF_INET;
   hints.ai_socktype = SOCK_STREAM;
   hints.ai_flags = 0;
@@ -43,16 +36,16 @@ int main(int argc, char const *argv[]) {
 /*  if(validar_argumentos(argc,argv,puerto,metodo,key) == ERROR){
     return 0;
   }*/
-  int local = getaddrinfo(0,/*puerto*/"8080", &hints,&resultados);
-  int resultado = socket_init(&socket_aceptador,resultados);
-  freeaddrinfo(resultados);
+  int local = getaddrinfo(0,puerto, &hints,&resultados);
+  ptr = resultados;
+  int resultado = socket_init(&socket_aceptador,ptr);
   if(resultado == ERROR){
     printf("Fallo");//mejorar este mensaje
   }
   printf("s:%i\n",socket_aceptador.fd);
   printf("l:%i\n",local);
 
-  //socket_bind_and_listen(&socket_aceptador, const char* host, const char* service);
+  socket_bind_and_listen(&socket_aceptador, host, servicio);
 
 
   printf("puerto: %i\n",atoi(puerto));
