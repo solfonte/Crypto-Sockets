@@ -15,6 +15,7 @@
 
 int main(int argc, char const *argv[]) {
   char const* metodo,puerto,key,host;
+  socket_t client;
   if(argc != CANTIDAD_ARGUMENTOS){
     printf("ERROR: %s",argc < CANTIDAD_ARGUMENTOS? FALTAN_ARGUMENTOS:SOBRAN_ARGUMENTOS);
     return 0;
@@ -31,7 +32,8 @@ int main(int argc, char const *argv[]) {
   hints.ai_family = AF_INET;
   hints.ai_socktype = SOCK_STREAM;
   hints.ai_flags = 0;
-  int local = getaddrinfo(host,puerto, &hints,&resultados);
+  int resultado = socket_connect(&client,host,puerto);
+  //int local = getaddrinfo(host,puerto, &hints,&resultados);
   if(local < 0){
     printf("l:%s\n",strerror(errno));
     return ERROR;

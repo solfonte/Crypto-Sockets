@@ -15,7 +15,7 @@ int socket_init(socket_t* self,struct addrinfo* resultados){
 }
 
 int socket_bind_and_listen(socket_t* self, const char* host, const char* service/*,struct addrinfo *resultados*/){
-  int resultado_socket,resultado_bind,val = 1;
+    int resultado_socket,resultado_bind,val = 1;
     struct addrinfo hints;
     struct addrinfo* resultados;// enrealidad seria para iterar
     memset(&hints,0,sizeof(struct addrinfo));
@@ -77,5 +77,26 @@ int socket_shutdown(socket_t* self,int modo){
 }
 
 int socket_connect(socket_t *self, const char *host, const char *service){
+  bool conecte = false;
+  int resultado_socket;
+  memset(&hints,0,sizeof(struct addrinfo));
+  hints.ai_family = AF_INET;
+  hints.ai_socktype = SOCK_STREAM;
+  hints.ai_flags = 0;
+  struct addrinfo hints;
+  struct addrinfo* resultados,ptr;
+  if(getaddrinfo(host,puerto, &hints,&resultados) < 0){
+    return ERROR;
+  }
+  ptr = resultados;
+  while(ptr != NULL && !conecte){
+    resultado_socket = socket_init(self,ptr);
+    if(resultado != ERROR && connect(self->fd,ptr->ai_addr,ptr->ai_addrlen) != ERROR){
+      conecte = true;
+    }
+    ptr->ai_next;
+  }
+
+
 
 }
