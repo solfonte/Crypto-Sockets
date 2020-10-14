@@ -24,18 +24,21 @@ int main(int argc, char const *argv[]) {
     return ERROR;
   }
   char const puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY];
-  socket_t socket_aceptador/*,peer*/;
+  socket_t socket_aceptador,peer;
   strncpy((char*)puerto,argv[POSICION_PUERTO],TAMANIO_PUERTO);
   strncpy((char*)metodo,argv[POSICION_METODO] + 9,TAMANIO_METODO);
   strncpy((char*)key,argv[POSICION_KEY] + 6,TAMANIO_KEY);//ver que onda por el largo
 
-  socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto/*,resultados*/);
+  socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto);
   /*while(el socket esta levantado??false){
-    socket_accept(&socket_aceptador,&peer);
-    //if(socket_accept(&socket_aceptador,&peer) == ERROR) hago algo
+    peer.fd = socket_accept(&socket_aceptador,&peer);
+    //if(peer.fd == ERROR) hago algo
   }*/
 //  socket_uninit(peer,SHUT_RD);
+  /*while(no se cerro el socket para escritura del cliente){
+    socket_receive(&peer,buffer,SIZE_BUFFER);
+  }
   socket_uninit(&socket_aceptador,SHUT_RD);
-
+*/
   return 0;
 }

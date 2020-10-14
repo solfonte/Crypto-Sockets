@@ -32,8 +32,7 @@ int main(int argc, char const *argv[]) {
   hints.ai_family = AF_INET;
   hints.ai_socktype = SOCK_STREAM;
   hints.ai_flags = 0;
-  int resultado = socket_connect(&client,host,puerto);
-  //int local = getaddrinfo(host,puerto, &hints,&resultados);
+  int resultado = socket_connect(&client,host,puerto);//capaz hay q hacer bind
   if(local < 0){
     printf("l:%s\n",strerror(errno));
     return ERROR;
