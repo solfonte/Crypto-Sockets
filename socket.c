@@ -96,7 +96,5 @@ int socket_connect(socket_t *self, const char *host, const char *service){
     }
     ptr->ai_next;
   }
-
-
-
+  return (self->fd != ERROR? EXITO:ERROR);
 }
