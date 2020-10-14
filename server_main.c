@@ -6,7 +6,7 @@
 #define POSICION_KEY 3
 #define TAMANIO_PUERTO 10
 #define TAMANIO_METODO 10
-#define TAMANIO_KEY 30
+#define TAMANIO_KEY 150
 #define ERROR -1
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,18 +27,27 @@ int main(int argc, char const *argv[]) {
   socket_t socket_aceptador,peer;
   strncpy((char*)puerto,argv[POSICION_PUERTO],TAMANIO_PUERTO);
   strncpy((char*)metodo,argv[POSICION_METODO] + 9,TAMANIO_METODO);
-  strncpy((char*)key,argv[POSICION_KEY] + 6,TAMANIO_KEY);//ver que onda por el largo
+  strncpy((char*)key,argv[POSICION_KEY] + 6,TAMANIO_KEY);//ver que onda por el largo y chequear estso errores
 
   socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto);
-  /*while(el socket esta levantado??false){
-    peer.fd = socket_accept(&socket_aceptador,&peer);
-    //if(peer.fd == ERROR) hago algo
-  }*/
-//  socket_uninit(peer,SHUT_RD);
-  /*while(no se cerro el socket para escritura del cliente){
-    socket_receive(&peer,buffer,SIZE_BUFFER);
+  int resultado = socket_accept(&socket_aceptador,&peer);
+  if(resultado == ERROR){
+    socket_shutdown(&socket_aceptador,SHUT_RD);
+    socket_uninit(&socket_aceptador);
+    printf("ERROR: FALLO LA CONEXION\n");
   }
-  socket_uninit(&socket_aceptador,SHUT_RD);
-*/
+  printf("aceptar:%i \n",resultado);
+  char buffer[10];
+  ssize_t bytes_recibidos = socket_receive(&peer,buffer,10);
+  while(bytes_recibidos > 0){
+    bytes_recibidos = socket_receive(&peer,buffer,10);
+    printf("cadena:%s",buffer);
+  }
+  //capaz mergear el shutdown y el uninit
+  socket_shutdown(&peer,SHUT_RD);
+  socket_uninit(&peer);
+  socket_shutdown(&socket_aceptador,SHUT_RD);
+  socket_uninit(&socket_aceptador);
+//ssize_t recv(int sockfd, void *buf, size_t len, int flags);
   return 0;
 }
