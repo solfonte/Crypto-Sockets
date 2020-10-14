@@ -11,32 +11,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
+#include <stdbool.h>//sacar despues
 #include "socket.h"
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
 
 int main(int argc, char const *argv[]) {
-  char const puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY];
-
-  socket_t socket_aceptador/*,peer*/;
   if(argc != CANTIDAD_ARGUMENTOS){
     printf("ERROR: %s",(argc < CANTIDAD_ARGUMENTOS? FALTAN_ARGUMENTOS:SOBRAN_ARGUMENTOS));
     return ERROR;
   }
+  char const puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY];
+  socket_t socket_aceptador/*,peer*/;
   strncpy((char*)puerto,argv[POSICION_PUERTO],TAMANIO_PUERTO);
   strncpy((char*)metodo,argv[POSICION_METODO] + 9,TAMANIO_METODO);
   strncpy((char*)key,argv[POSICION_KEY] + 6,TAMANIO_KEY);//ver que onda por el largo
-  struct addrinfo hints;
-  struct addrinfo *resultados;//deberia estar en bind and listen
 
-  hints.ai_family = AF_INET;
-  hints.ai_socktype = SOCK_STREAM;
-  hints.ai_flags = 0;
-  int local = getaddrinfo(0,puerto, &hints,&resultados);
-  printf("l:%i\n",local);
+  socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto/*,resultados*/);
+  /*while(el socket esta levantado??false){
+    socket_accept(&socket_aceptador,&peer);
+    //if(socket_accept(&socket_aceptador,&peer) == ERROR) hago algo
+  }*/
+//  socket_uninit(peer,SHUT_RD);
+  socket_uninit(&socket_aceptador,SHUT_RD);
 
-  socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto,resultados);
-
-  printf("puerto: %i\n",atoi(puerto));
-  printf("metodo: %s\n",metodo);
-  printf("key: %i\n",atoi(key));
   return 0;
 }
