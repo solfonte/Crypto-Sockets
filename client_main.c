@@ -24,19 +24,7 @@
 //ver si esto deberia ir en otro lado
 int _enviar_mensaje(const char *buffer, size_t tamanio, void *callback_ctx){
   socket_t* client = callback_ctx;
-  size_t total_bytes_left = tamanio;
-  ssize_t bytes_enviados = 0;
-
-  while(total_bytes_left > 0 && bytes_enviados != ERROR){
-
-    bytes_enviados = socket_send(client,buffer,total_bytes_left);
-    printf("bytes enviadoss: %lu\n",bytes_enviados);
-
-    if(bytes_enviados != ERROR){
-      total_bytes_left = total_bytes_left - (size_t)bytes_enviados;
-    }
-  }
-  return (bytes_enviados == ERROR? ERROR:EXITO);
+  return socket_send(client,buffer,tamanio);
 }
 
 

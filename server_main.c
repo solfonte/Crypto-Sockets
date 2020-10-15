@@ -7,6 +7,7 @@
 #define TAMANIO_PUERTO 10
 #define TAMANIO_METODO 10
 #define TAMANIO_KEY 150
+#define TAMANIO_RESPUESTA 10
 #define ERROR -1
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,12 +44,10 @@ int main(int argc, char const *argv[]) {
   }
   printf("aceptar:%i \n",resultado);
 
-  char buffer[10];
-  ssize_t bytes_recibidos = socket_receive(&peer,buffer,10);
-  while(bytes_recibidos > 0){
-    printf("%s",buffer);
-    bytes_recibidos = socket_receive(&peer,buffer,10);
-  }
+  char buffer[TAMANIO_RESPUESTA];
+
+  socket_receive(&peer,buffer,TAMANIO_RESPUESTA);
+
   //capaz mergear el shutdown y el uninit
   socket_shutdown(&peer,SHUT_RD);
   socket_uninit(&peer);
