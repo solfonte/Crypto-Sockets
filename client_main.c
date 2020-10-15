@@ -12,6 +12,7 @@
 #define TAMANIO_KEY 30
 #define TAMANIO_NOMBRE_ARCHIVO 150
 #define ERROR -1
+#define EXITO 0
 
 #include "lector_de_texto.h"
 #include "socket.h"
@@ -19,6 +20,24 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+
+//ver si esto deberia ir en otro lado
+int _enviar_mensaje(const char *buffer, size_t tamanio, void *callback_ctx){
+  socket_t* client = callback_ctx;
+  size_t total_bytes_left = tamanio;
+  ssize_t bytes_enviados = 0;
+
+  while(total_bytes_left > 0 && bytes_enviados != ERROR){
+
+    bytes_enviados = socket_send(client,buffer,total_bytes_left);
+    printf("bytes enviadoss: %lu\n",bytes_enviados);
+
+    if(bytes_enviados != ERROR){
+      total_bytes_left = total_bytes_left - (size_t)bytes_enviados;
+    }
+  }
+  return (bytes_enviados == ERROR? ERROR:EXITO);
+}
 
 
 int main(int argc, char const *argv[]) {
@@ -42,6 +61,12 @@ int main(int argc, char const *argv[]) {
     printf("l:%s\n",strerror(errno));
     return ERROR;
   }
+  int resultado_iterar = lector_de_texto_iterar(&lector,_enviar_mensaje,&client);
+  if(resultado_iterar == ERROR){
+    printf("fallo iterar\n");
+  }
+
+  /*
   char buffer[200] = "hola";
   FILE* file = fopen(archivo,"r");
   size_t leidos = fread((void*)buffer,sizeof(char*),200,file);
@@ -50,7 +75,7 @@ int main(int argc, char const *argv[]) {
 
   printf("leo: %s y lei bytes:%lu\n",buffer,leidos);
 
-  while(total_bytes_left > 0 && bytes_enviados != ERROR /*&& leidos > 0*/){
+  while(total_bytes_left > 0 && bytes_enviados != ERROR && leidos > 0){
     //lector_de_texto_leer()
     bytes_enviados = socket_send(&client,buffer,total_bytes_left);
     printf("bytes enviadoss: %lu\n",bytes_enviados);
@@ -60,10 +85,7 @@ int main(int argc, char const *argv[]) {
       printf("bytes leidos devuelta: %lu\n",bytes_enviados);
       total_bytes_left = total_bytes_left - (size_t)bytes_enviados + leidos;
     }
-  }
-  fclose(file);
-
-
+  }*/
   socket_shutdown(&client,SHUT_WR);
   socket_uninit(&client);
   lector_de_texto_uninit(&lector);

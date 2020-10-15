@@ -11,15 +11,16 @@ void lector_de_texto_uninit(lector_de_texto_t* lector){
   /*  if(!stdin){
       fclose()
     }*/
-}/*
-int lector_de_texto_leer(lector_de_texto_t* lector,(*lector_de_texto_callback)(const char *chunk, size_t chunk_size, void *callback_ctx)){
+}
+int lector_de_texto_iterar(lector_de_texto_t* lector,int (*lector_de_texto_callback)(const char *chunk, size_t chunk_size, void *callback_ctx),void *callback_ctx){
   char buffer[150];
-  size_t leido = fread((void*)buffer,sizeof(char*),150,lector->file_pointer);
-  while(leido > 0){
-    lector_de_texto_callback(buffer,150,);
-    //bytes_enviados = socket_send(&client,buffer,total_bytes_left);
-    //if(bytes_enviados != ERROR){
-    //  total_bytes_left = total_bytes_left - (size_t)bytes_enviados;
-    //}
-  }*/
-//}
+  //size_t leido = fread((void*)buffer,sizeof(char*),150,lector->file_pointer);
+  int resultado;
+  while(!feof(lector->file_pointer) && resultado != ERROR){
+    size_t leido = fread((void*)buffer,1,150,lector->file_pointer);
+    printf("leo: %s y lei bytes:%lu\n",buffer,leido);
+    resultado = lector_de_texto_callback(buffer,leido,callback_ctx);
+
+  }
+  return (resultado == ERROR?ERROR:EXITO);
+}
