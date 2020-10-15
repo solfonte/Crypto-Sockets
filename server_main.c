@@ -24,24 +24,30 @@ int main(int argc, char const *argv[]) {
     return ERROR;
   }
   char const puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY];
+  /*en otra funcion*/
+
   socket_t socket_aceptador,peer;
   strncpy((char*)puerto,argv[POSICION_PUERTO],TAMANIO_PUERTO);
   strncpy((char*)metodo,argv[POSICION_METODO] + 9,TAMANIO_METODO);
   strncpy((char*)key,argv[POSICION_KEY] + 6,TAMANIO_KEY);//ver que onda por el largo y chequear estso errores
 
+  /*******************/
+
   socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto);
   int resultado = socket_accept(&socket_aceptador,&peer);
+
   if(resultado == ERROR){
     socket_shutdown(&socket_aceptador,SHUT_RD);
     socket_uninit(&socket_aceptador);
     printf("ERROR: FALLO LA CONEXION\n");
   }
   printf("aceptar:%i \n",resultado);
+
   char buffer[10];
   ssize_t bytes_recibidos = socket_receive(&peer,buffer,10);
   while(bytes_recibidos > 0){
+    printf("%s",buffer);
     bytes_recibidos = socket_receive(&peer,buffer,10);
-    printf("cadena:%s",buffer);
   }
   //capaz mergear el shutdown y el uninit
   socket_shutdown(&peer,SHUT_RD);
