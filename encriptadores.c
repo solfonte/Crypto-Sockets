@@ -54,29 +54,6 @@ int descifrado_de_vigenere(char* cadena,char* key){
   return EXITO;
 }
 
-/*
-int cifrado_de_rc4(char* cadena,char* key){
-  unsigned char vector_s[256];
-  for(int i = 0; i < 256; i++){
-    vector_s[i] = i;
-  }
-  int j=0;
-  for(i = 0;i < 256; i++){
-
-   j = ( j + vector_s[i] + key[i % strlen(key)] ) % 256;
-   swap(vector_s[i],vector_s[j]);
-  }
-  prga*/
-/*  int t = 0;
-  i = 0;
-  j = 0;
-  i = (i + 1) % 256;
-  j = (j + S[i]) % 256;
-  swap(vector_s[i],vector_s[j])
-  t = (S[i] + S[j]) mod 256;
-  *cadena_aux = (unsigned char)(*cadena_aux ^ rc4_output(vector_s));
-}*/
-
 static void swap(unsigned char *s, unsigned int i, unsigned int j) {
     unsigned char temp = s[i];
     s[i] = s[j];

@@ -1,26 +1,25 @@
-#inlcude "file_reader.h"
+#include "lector_de_texto.h"
+#define ERROR -1
+#define EXITO 0
 
-int file_reader_init(file_reader_t* self, const char* file_name){
-  if(file_name == NULL || self->fp = fopen(*file_name,"rb") == NULL){
-    self->fp = stdin;
-  }
-  return 0;
+int lector_de_texto_init(lector_de_texto_t* lector,const char* archivo){
+  lector->file_pointer = fopen(archivo,"rd");
+  return (lector->file_pointer == NULL?ERROR:EXITO);
 }
-
-int file_reader_uninit(file_reader_t* self){
-  if(self->fp != stdin){
-    fclose(self->fp);
-  }
-  return 0;
-}
-/*
-int file_reader_iterate(file_reader_t* self,file_reader_callback_t callback,void* callback_ctx){
-  char chunk[CHUNK_SIZE];
-  //cambiar esto a como lo hicieron en la clase
-  while(!feof(self->fp)){
-    size_t result = fread(buffer,1,CHUNK_SIZE,self->fp);
-    callback(chunk,result,callback_ctx);//ptero a funcion para no acoplar el send con el file reader
-    //fwrite(buffer,1,result,stdout);
-  }
-  return 0;
-}*/
+void lector_de_texto_uninit(lector_de_texto_t* lector){
+		fclose(lector->file_pointer);
+  /*  if(!stdin){
+      fclose()
+    }*/
+}/*
+int lector_de_texto_leer(lector_de_texto_t* lector,(*lector_de_texto_callback)(const char *chunk, size_t chunk_size, void *callback_ctx)){
+  char buffer[150];
+  size_t leido = fread((void*)buffer,sizeof(char*),150,lector->file_pointer);
+  while(leido > 0){
+    lector_de_texto_callback(buffer,150,);
+    //bytes_enviados = socket_send(&client,buffer,total_bytes_left);
+    //if(bytes_enviados != ERROR){
+    //  total_bytes_left = total_bytes_left - (size_t)bytes_enviados;
+    //}
+  }*/
+//}
