@@ -19,40 +19,44 @@
 #include <sys/socket.h>
 #include <netdb.h>
 
+int datos_servidor_init(char const *datos[],char* puerto,char* metodo,char* key){
+  strncpy(puerto,datos[POSICION_PUERTO],TAMANIO_PUERTO);
+  strncpy(metodo,datos[POSICION_METODO] + 9,TAMANIO_METODO);
+  strncpy(key,datos[POSICION_KEY] + 6,TAMANIO_KEY);//ver que onda por el largo y chequear estso errores
+  return EXITO;
+}
+
+
+
 int main(int argc, char const *argv[]) {
   if(argc != CANTIDAD_ARGUMENTOS){
     printf("ERROR: %s",(argc < CANTIDAD_ARGUMENTOS? FALTAN_ARGUMENTOS:SOBRAN_ARGUMENTOS));
     return ERROR;
   }
-  char const puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY];
-  /*en otra funcion*/
-
+  char puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY];
   socket_t socket_aceptador,peer;
-  strncpy((char*)puerto,argv[POSICION_PUERTO],TAMANIO_PUERTO);
-  strncpy((char*)metodo,argv[POSICION_METODO] + 9,TAMANIO_METODO);
-  strncpy((char*)key,argv[POSICION_KEY] + 6,TAMANIO_KEY);//ver que onda por el largo y chequear estso errores
+  int resultado;
+  //falta el cryptosocket
+  //verificar devolucion
+  datos_servidor_init(argv,puerto,metodo,key);
 
-  /*******************/
-
-  socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto);
-  int resultado = socket_accept(&socket_aceptador,&peer);
-
+  resultado = socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto);
   if(resultado == ERROR){
-    socket_shutdown(&socket_aceptador,SHUT_RD);
-    socket_uninit(&socket_aceptador);
-    printf("ERROR: FALLO LA CONEXION\n");
+    printf("No se pudo crear el servidor\n");
+    return 0;
   }
-  printf("aceptar:%i \n",resultado);
+  resultado = socket_accept(&socket_aceptador,&peer);
+  if(resultado == ERROR){
+    socket_uninit(&socket_aceptador,SHUT_RD);
+    printf("No se pudo conectar con el cliente\n");
+    return 0;
+  }
 
   char buffer[TAMANIO_RESPUESTA];
 
   socket_receive(&peer,buffer,TAMANIO_RESPUESTA);
 
-  //capaz mergear el shutdown y el uninit
-  socket_shutdown(&peer,SHUT_RD);
-  socket_uninit(&peer);
-  socket_shutdown(&socket_aceptador,SHUT_RD);
-  socket_uninit(&socket_aceptador);
-//ssize_t recv(int sockfd, void *buf, size_t len, int flags);
+  socket_uninit(&peer,SHUT_RD);
+  socket_uninit(&socket_aceptador,SHUT_RD);
   return 0;
 }

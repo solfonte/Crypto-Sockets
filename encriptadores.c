@@ -3,11 +3,13 @@
 #include "encriptadores.h"
 #include <stdlib.h>
 #define TAMANIO_VECTOR_S 256
-#define EXITO 1
+
+//cambiar a encriptador_metodo
 
 //hay mucho codigo repetido en los cifrados de cesar y vigenere
-int cifrado_de_cesar(char* cadena,int key){
+int cifrado_de_cesar(char* cadena,void* key){
   unsigned char* cadena_aux = (unsigned char*)cadena;
+  int key_aux = *(int*)key;
   while(*cadena_aux != '\0'){
     *cadena_aux = (unsigned char)(*cadena_aux + key) /*% 256*/;
     cadena_aux++;
@@ -15,7 +17,8 @@ int cifrado_de_cesar(char* cadena,int key){
   return EXITO;
 }
 
-int descifrado_de_cesar(char*cadena,int key){
+int descifrado_de_cesar(char*cadena,void* key){
+  int key_aux = *(int*)key;
   unsigned char* cadena_aux = (unsigned char*)cadena;
   while(*cadena_aux != '\0'){
     *cadena_aux = (unsigned char)(*cadena_aux - key) /*% 256*/;
@@ -24,7 +27,7 @@ int descifrado_de_cesar(char*cadena,int key){
   return EXITO;
 }
 
-int cifrado_de_vigenere(char* cadena,char* key){
+int cifrado_de_vigenere(char* cadena,void* key){
   unsigned char* cadena_aux = (unsigned char*)cadena;
   unsigned char* key_aux = (unsigned char*)key;
   while(*cadena_aux != '\0'){
@@ -40,7 +43,7 @@ int cifrado_de_vigenere(char* cadena,char* key){
   return EXITO;
 }
 
-int descifrado_de_vigenere(char* cadena,char* key){
+int descifrado_de_vigenere(char* cadena,void* key){
   unsigned char* cadena_aux = (unsigned char*)cadena;
   unsigned char* key_aux = (unsigned char*)key;
   while(*cadena_aux != '\0'){
@@ -83,31 +86,33 @@ static unsigned char rc4_output(unsigned char* vector_s) {
     return vector_s[(vector_s[i] + vector_s[j]) % TAMANIO_VECTOR_S];
 }
 
-int cifrado_de_rc4(char* cadena,char* key){
+int cifrado_de_rc4(char* cadena,void* key){
+  key_aux = (unsigned char*)key;
   unsigned char vector_s[TAMANIO_VECTOR_S];
   unsigned char* cadena_aux = (unsigned char*)cadena;
-  ksa((unsigned char*)key,strlen(key),vector_s);
+  ksa(key_aux,strlen(key_aux),vector_s);
   while(*cadena_aux != '\0'){
     *cadena_aux = (unsigned char)(*cadena_aux ^ rc4_output(vector_s));
   //  printf("|%x|",(int)*cadena_aux);
 
     cadena_aux = cadena_aux + 1;
 
-    }
+  }
     return EXITO;
 
 }
-int descifrado_de_rc4(char* cadena,char* key){
+
+int descifrado_de_rc4(char* cadena,void* key){
+  key_aux = (unsigned char*)key;
   unsigned char vector_s[TAMANIO_VECTOR_S];
   unsigned char* cadena_aux = (unsigned char*)cadena;
-  ksa((unsigned char*)key,strlen(key),vector_s);
+  ksa(key_aux,strlen(key_aux),vector_s);
   while(*cadena_aux != '\0'){
     *cadena_aux = (unsigned char)(*cadena_aux ^ rc4_output(vector_s));
     //printf("|%x|",(int)*cadena_aux);
-
     cadena_aux = cadena_aux + 1;
 
-    }
+  }
     return EXITO;
 
 }

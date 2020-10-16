@@ -11,11 +11,11 @@
 #define TAMANIO_METODO 10
 #define TAMANIO_KEY 30
 #define TAMANIO_NOMBRE_ARCHIVO 150
-#define ERROR -1
-#define EXITO 0
+
 
 #include "lector_de_texto.h"
 #include "socket.h"
+//#include "cryptosocket.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,57 +27,49 @@ int _enviar_mensaje(const char *buffer, size_t tamanio, void *callback_ctx){
   return socket_send(client,buffer,tamanio);
 }
 
+int datos_cliente_init(char const* datos[],char* host,char* puerto,char* metodo,char* key,char* archivo){
+  //hacer chequeoss
+  strncpy(host,datos[POSICION_HOST],TAMANIO_HOST);
+  printf("host: %s\n",host);
+  strncpy(puerto,datos[POSICION_PUERTO],TAMANIO_PUERTO);
+  printf("puerto: %s\n",puerto);
+  strncpy(metodo,datos[POSICION_METODO] + 9,TAMANIO_METODO);
+  printf("metodo: %s\n",metodo);
+  strncpy(key,datos[POSICION_KEY] + 6,TAMANIO_KEY);//ver que onda por el largo
+  printf("key: %s\n",key);
+  strncpy(archivo,datos[POSICION_ARCHIVO],TAMANIO_NOMBRE_ARCHIVO);//ver que onda por el largo
+  return EXITO;
+}
+
+//./client 127.0.0.1 8080 --method=rc4 --key=queso < __client_stdin__
 
 int main(int argc, char const *argv[]) {
-  char const puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY],host[TAMANIO_HOST],archivo[TAMANIO_NOMBRE_ARCHIVO];//cambiar este nombre ;
-  socket_t client;
   if(argc != CANTIDAD_ARGUMENTOS){
     printf("ERROR: %s",argc < CANTIDAD_ARGUMENTOS? FALTAN_ARGUMENTOS:SOBRAN_ARGUMENTOS);
     return 0;
   }
-  strncpy((char*)host,argv[POSICION_HOST],TAMANIO_HOST);
-  strncpy((char*)puerto,argv[POSICION_PUERTO],TAMANIO_PUERTO);
-  strncpy((char*)metodo,argv[POSICION_METODO] + 9,TAMANIO_METODO);
-  strncpy((char*)key,argv[POSICION_KEY] + 6,TAMANIO_KEY);//ver que onda por el largo
-  strncpy((char*)archivo,argv[POSICION_ARCHIVO],TAMANIO_NOMBRE_ARCHIVO);//ver que onda por el largo
 
+  char puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY],host[TAMANIO_HOST],archivo[TAMANIO_NOMBRE_ARCHIVO];//cambiar despues a stdin
+  socket_t client;
   lector_de_texto_t lector;
+
+  //verificar retorno
+  datos_cliente_init(argv,host,puerto,metodo,key,archivo);
   lector_de_texto_init(&lector,archivo);
-  printf("archivo desde el lector: %s",archivo);
+
+  //lector_de_texto_init(&lector,stdin);
 
   if(socket_connect(&client,host,puerto) == ERROR){
-    printf("l:%s\n",strerror(errno));
-    return ERROR;
+    printf("No pudo conectarse al servidor. Error: %s\n",strerror(errno));
+    socket_uninit(&client,SHUT_WR);
+    return 0;
   }
   int resultado_iterar = lector_de_texto_iterar(&lector,_enviar_mensaje,&client);
   if(resultado_iterar == ERROR){
-    printf("fallo iterar\n");
+    printf("No se pudo enviar el mensaje correctamente\n");
   }
-
-  /*
-  char buffer[200] = "hola";
-  FILE* file = fopen(archivo,"r");
-  size_t leidos = fread((void*)buffer,sizeof(char*),200,file);
-  size_t total_bytes_left = leidos;
-  ssize_t bytes_enviados = 0;
-
-  printf("leo: %s y lei bytes:%lu\n",buffer,leidos);
-
-  while(total_bytes_left > 0 && bytes_enviados != ERROR && leidos > 0){
-    //lector_de_texto_leer()
-    bytes_enviados = socket_send(&client,buffer,total_bytes_left);
-    printf("bytes enviadoss: %lu\n",bytes_enviados);
-
-    if(bytes_enviados != ERROR){
-      leidos = fread((void*)buffer,sizeof(char*),10,file);
-      printf("bytes leidos devuelta: %lu\n",bytes_enviados);
-      total_bytes_left = total_bytes_left - (size_t)bytes_enviados + leidos;
-    }
-  }*/
-  socket_shutdown(&client,SHUT_WR);
-  socket_uninit(&client);
+  socket_uninit(&client,SHUT_WR);
   lector_de_texto_uninit(&lector);
 
   return 0;
 }
-//./client 127.0.0.1 8080 --method=rc4 --key=queso < __client_stdin__

@@ -1,6 +1,8 @@
 #ifndef __LECTOR_DE_TEXTO_H__
 #define __LECTOR_DE_TEXTO_H__
 
+#define ERROR -1
+#define EXITO 0
 #include <stdlib.h>
 #include <stdio.h>
 
