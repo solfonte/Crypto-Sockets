@@ -38,7 +38,7 @@ int datos_cliente_init(char const* datos[],char* host,char* puerto,char* metodo,
 //./client 127.0.0.1 8080 --method=rc4 --key=queso < __client_stdin__
 
 int main(int argc, char const *argv[]) {
-  if(argc != CANTIDAD_ARGUMENTOS){
+  if (argc != CANTIDAD_ARGUMENTOS){
     printf("ERROR: %s",argc < CANTIDAD_ARGUMENTOS? FALTAN_ARGUMENTOS:SOBRAN_ARGUMENTOS);
     return 0;
   }
@@ -54,14 +54,14 @@ int main(int argc, char const *argv[]) {
   encriptador_init(&encriptador,metodo,(void*)key);
 
   //lector_de_texto_init(&lector,stdin);
-  if(socket_connect(&client,host,puerto) == ERROR){
+  if (socket_connect(&client,host,puerto) == ERROR){
     printf("No pudo conectarse al servidor. Error: %s\n",strerror(errno));
     socket_uninit(&client,SHUT_WR);
     return 0;
   }
   cryptosocket_init(&cryptosocket,&client,&encriptador);
   int resultado_iterar = lector_de_texto_iterar(&lector,_cryptosocket_enviar_mensaje_encriptado,&cryptosocket);
-  if(resultado_iterar == ERROR){
+  if (resultado_iterar == ERROR){
     printf("No se pudo enviar el mensaje correctamente\n");
   }
   socket_uninit(&client,SHUT_WR);

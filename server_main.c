@@ -27,7 +27,7 @@ int datos_servidor_init(char const *datos[],char* puerto,char* metodo,char* key)
 }
 
 int main(int argc, char const *argv[]) {
-  if(argc != CANTIDAD_ARGUMENTOS){
+  if (argc != CANTIDAD_ARGUMENTOS){
     printf("ERROR: %s",(argc < CANTIDAD_ARGUMENTOS? FALTAN_ARGUMENTOS:SOBRAN_ARGUMENTOS));
     return ERROR;
   }
@@ -43,12 +43,12 @@ int main(int argc, char const *argv[]) {
   encriptador_init(&encriptador,metodo,(void*)key);
 
   resultado = socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto);
-  if(resultado == ERROR){
+  if (resultado == ERROR){
     printf("No se pudo crear el servidor\n");
     return 0;
   }
   resultado = socket_accept(&socket_aceptador,&peer);
-  if(resultado == ERROR){
+  if (resultado == ERROR){
     socket_uninit(&socket_aceptador,SHUT_RD);
     printf("No se pudo conectar con el cliente\n");
     return 0;

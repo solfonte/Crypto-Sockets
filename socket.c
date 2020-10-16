@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -61,13 +60,13 @@ int socket_connect(socket_t *self, const char *host, const char *service){
   struct addrinfo hints;
   struct addrinfo* resultados,*ptr;
   hints_innit(&hints,AF_INET,SOCK_STREAM,0);
-  if(getaddrinfo(host,service, &hints,&resultados) < 0){
+  if (getaddrinfo(host,service, &hints,&resultados) < 0){
     return ERROR;
   }
   ptr = resultados;
-  while(ptr != NULL && !conecte){
+  while (ptr != NULL && !conecte){
     resultado_socket = socket_init(self,ptr);
-    if(resultado_socket != ERROR && connect(self->fd,ptr->ai_addr,ptr->ai_addrlen) != ERROR){
+    if (resultado_socket != ERROR && connect(self->fd,ptr->ai_addr,ptr->ai_addrlen) != ERROR){
       conecte = true;
     }
     ptr = ptr->ai_next;
@@ -79,9 +78,9 @@ int socket_connect(socket_t *self, const char *host, const char *service){
 int socket_send(socket_t* self, const char* buffer, size_t length){
   size_t bytes_no_enviados = length;
   ssize_t bytes_enviados = 0;
-  while(bytes_no_enviados > 0 && bytes_enviados != ERROR){
+  while (bytes_no_enviados > 0 && bytes_enviados != ERROR){
     bytes_enviados = send(self->fd,&buffer[bytes_enviados],length - (size_t)bytes_enviados,MSG_NOSIGNAL);
-    if(bytes_enviados != ERROR){
+    if (bytes_enviados != ERROR){
       bytes_no_enviados = bytes_no_enviados - (size_t)bytes_enviados;
     }
   }
@@ -94,15 +93,15 @@ int socket_receive(socket_t* self, int (*socket_callback)(char* chunk,void* call
   ssize_t resultado_recv = 0;
   char buffer[TAMANIO_RESPUESTA];
   size_t length = TAMANIO_RESPUESTA;
-  while(!termine && resultado_recv!= ERROR){
+  while (!termine && resultado_recv!= ERROR){
     resultado_recv = recv(self->fd,buffer,length - (size_t)bytes_recibidos - 1,0);
     bytes_recibidos = resultado_recv;
     buffer[bytes_recibidos] = 0;
     socket_callback(buffer,callback_ctx);
-    if(bytes_recibidos == (size_t)length - 1){
+    if (bytes_recibidos == (size_t)length - 1){
       bytes_recibidos = 0;
     }
-    if(resultado_recv == 0){
+    if (resultado_recv == 0){
       termine = true;
     }
   }

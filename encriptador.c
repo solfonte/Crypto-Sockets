@@ -15,8 +15,8 @@ void encriptador_encriptar(encriptador_t* encriptador,char* buffer,int modo){
   }
 }
 
-int encriptador_init(encriptador_t* encriptador,char* metodo/*int (*encriptador_encriptar)(char* buffer,void*key)*/,void*key){
-  encriptador->metodo = metodo/*encriptador_encriptar*/;
+int encriptador_init(encriptador_t* encriptador,char* metodo,void*key){
+  encriptador->metodo = metodo;
   encriptador->key = key;
   return EXITO;
 }
@@ -28,7 +28,7 @@ int encriptador_cesar(char* cadena,void* key,int modo){
     if(modo == CIFRAR){
       *cadena_aux = (unsigned char)(*cadena_aux + key_aux);
     }else{
-      *cadena_aux = (unsigned char)(*cadena_aux - key_aux) /*% 256*/;
+      *cadena_aux = (unsigned char)(*cadena_aux - key_aux);
     }
     cadena_aux++;
   }
@@ -92,10 +92,7 @@ int encriptador_rc4(char* cadena,void* key){
   while(*cadena_aux != '\0'){
     *cadena_aux = (unsigned char)(*cadena_aux ^ rc4_output(vector_s));
   //  printf("|%x|",(int)*cadena_aux);
-
     cadena_aux = cadena_aux + 1;
-
   }
     return EXITO;
-
 }
