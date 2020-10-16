@@ -11,8 +11,8 @@
 #define TAMANIO_METODO 10
 #define TAMANIO_KEY 30
 #define TAMANIO_NOMBRE_ARCHIVO 150
-#include "cryptosocket.h"
-#include "lector_de_texto.h"
+#include "common_cryptosocket.h"
+#include "client_lector_de_texto.h"
 #define _POSIX_C_SOURCE 200112L
 
 #include <stdio.h>

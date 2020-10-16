@@ -1,8 +1,8 @@
 #ifndef __CRYPTOSOCKET_H__
 #define __CRYPTOSOCKET_H__
 
-#include "socket.h"
-#include "encriptador.h"
+#include "common_socket.h"
+#include "common_encriptador.h"
 
 #define ERROR -1
 #define EXITO 0

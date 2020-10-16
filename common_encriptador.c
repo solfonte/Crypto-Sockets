@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stdio.h>
-#include "encriptador.h"
+#include "common_encriptador.h"
 #include <stdlib.h>
 
 #define TAMANIO_VECTOR_S 256

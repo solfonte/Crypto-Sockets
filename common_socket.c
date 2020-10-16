@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "socket.h"
+#include "common_socket.h"
 #define TAMANIO_MENSAJE 10
 #define TAMANIO_RESPUESTA 10
 //capaz sacar TAMANIO_RESPUESTA
