@@ -26,15 +26,13 @@ int datos_servidor_init(char const *datos[],char* puerto,char* metodo,char* key)
   return EXITO;
 }
 
-
-
 int main(int argc, char const *argv[]) {
   if(argc != CANTIDAD_ARGUMENTOS){
     printf("ERROR: %s",(argc < CANTIDAD_ARGUMENTOS? FALTAN_ARGUMENTOS:SOBRAN_ARGUMENTOS));
     return ERROR;
   }
   char puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY];
-  char buffer[TAMANIO_RESPUESTA];//capaz no hace falta esto aca, sino adentro de recv directamente
+//  char buffer[TAMANIO_RESPUESTA];//capaz no hace falta esto aca, sino adentro de recv directamente
   socket_t socket_aceptador,peer;
   int resultado;
   encriptador_t encriptador;
@@ -42,7 +40,7 @@ int main(int argc, char const *argv[]) {
 
   //verificar devolucion
   datos_servidor_init(argv,puerto,metodo,key);
-  encriptador_init(&encriptador,encriptador_cesar_descifrar,(void*)key);
+  encriptador_init(&encriptador,metodo,(void*)key);
 
   resultado = socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto);
   if(resultado == ERROR){
@@ -56,8 +54,9 @@ int main(int argc, char const *argv[]) {
     return 0;
   }
   cryptosocket_init(&cryptosocket,&peer,&encriptador);
-//  socket_receive(&peer,buffer,TAMANIO_RESPUESTA);
-  _cryptosocket_recibir_mensaje_encriptado(&cryptosocket,buffer,TAMANIO_RESPUESTA);
+  //socket_receive(&peer,buffer,TAMANIO_RESPUESTA);
+  socket_receive(&peer,_cryptosocket_recibir_mensaje_encriptado,&cryptosocket);
+
   socket_uninit(&peer,SHUT_RD);
   socket_uninit(&socket_aceptador,SHUT_RD);
   return 0;

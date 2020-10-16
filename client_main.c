@@ -1,4 +1,4 @@
-#define CANTIDAD_ARGUMENTOS 6
+#define CANTIDAD_ARGUMENTOS 5
 #define SOBRAN_ARGUMENTOS "SOBRAN ARGUMENTOS"
 #define FALTAN_ARGUMENTOS "FALTAN ARGUMENTOS"
 #define POSICION_PUERTO 2
@@ -21,7 +21,7 @@
 #include <string.h>
 #include <errno.h>
 
-int datos_cliente_init(char const* datos[],char* host,char* puerto,char* metodo,char* key,char* archivo){
+int datos_cliente_init(char const* datos[],char* host,char* puerto,char* metodo,char* key){
   //hacer chequeoss
   strncpy(host,datos[POSICION_HOST],TAMANIO_HOST);
   printf("host: %s\n",host);
@@ -31,7 +31,7 @@ int datos_cliente_init(char const* datos[],char* host,char* puerto,char* metodo,
   printf("metodo: %s\n",metodo);
   strncpy(key,datos[POSICION_KEY] + 6,TAMANIO_KEY);//ver que onda por el largo
   printf("key: %s\n",key);
-  strncpy(archivo,datos[POSICION_ARCHIVO],TAMANIO_NOMBRE_ARCHIVO);//ver que onda por el largo
+  //strncpy(archivo,datos[POSICION_ARCHIVO],TAMANIO_NOMBRE_ARCHIVO);//ver que onda por el largo
   return EXITO;
 }
 
@@ -43,16 +43,15 @@ int main(int argc, char const *argv[]) {
     return 0;
   }
 
-  char puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY],host[TAMANIO_HOST],archivo[TAMANIO_NOMBRE_ARCHIVO];//cambiar despues a stdin
+  char puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY],host[TAMANIO_HOST]/*,archivo[TAMANIO_NOMBRE_ARCHIVO]*/;//cambiar despues a stdin
   socket_t client;
   lector_de_texto_t lector;
   cryptosocket_t cryptosocket;
   encriptador_t encriptador;
-
   //verificar retorno
-  datos_cliente_init(argv,host,puerto,metodo,key,archivo);
-  lector_de_texto_init(&lector,archivo);
-  encriptador_init(&encriptador,/*metodo*/encriptador_cesar_cifrar,(void*)key);
+  datos_cliente_init(argv,host,puerto,metodo,key/*,archivo*/);
+  lector_de_texto_init(&lector/*,archivo*/);
+  encriptador_init(&encriptador,metodo,(void*)key);
 
   //lector_de_texto_init(&lector,stdin);
   if(socket_connect(&client,host,puerto) == ERROR){
