@@ -18,6 +18,6 @@ int cryptosocket_init(cryptosocket_t* cryptosocket,socket_t* socket,encriptador_
 
 int _cryptosocket_enviar_mensaje_encriptado(char* buffer, size_t tamanio, void *callback_ctx);
 
-int _cryptosocket_recibir_mensaje_encriptado(cryptosocket_t* cryptosocket,char* buffer, size_t tamanio);
+int _cryptosocket_recibir_mensaje_encriptado(char *buffer,void* cryptosocket);
 
 #endif
