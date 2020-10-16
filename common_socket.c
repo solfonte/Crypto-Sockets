@@ -22,8 +22,11 @@ int socket_init(socket_t* self,struct addrinfo* info){
   return (self->fd > 0?EXITO:ERROR);
 }
 
-int socket_bind_and_listen(socket_t* self, const char* host, const char* service){
-  //capaz cambiar la estructura de resultados por resultado y dividir bind con listen
+int socket_bind_and_listen(socket_t* self,
+                          const char* host,
+                          const char* service){
+  //capaz cambiar la estructura de resultados
+  //por resultado y dividir bind con listen
   int resultado_bind,val = 1;
   struct addrinfo hints;
   struct addrinfo* resultados;
@@ -42,7 +45,7 @@ int socket_bind_and_listen(socket_t* self, const char* host, const char* service
     socket_uninit(self,SHUT_RD);
     return ERROR;
   }
-  int resultado_listen = listen(self->fd, 10/*ver cuantas deberian ser,cpaz una sola es*/);
+  int resultado_listen = listen(self->fd, 10/**/);
   return resultado_listen;
 }
 
@@ -81,7 +84,8 @@ int socket_send(socket_t* self, const char* buffer, size_t length){
   size_t bytes_no_enviados = length;
   ssize_t bytes_enviados = 0;
   while (bytes_no_enviados > 0 && bytes_enviados != ERROR){
-    bytes_enviados = send(self->fd,&buffer[bytes_enviados],length - (size_t)bytes_enviados,MSG_NOSIGNAL);
+    size_t tam_enviar = length - (size_t)bytes_enviados;
+    bytes_enviados = send(self->fd,&buffer[bytes_enviados],tam_enviar,MSG_NOSIGNAL);
     if (bytes_enviados != ERROR){
       bytes_no_enviados = bytes_no_enviados - (size_t)bytes_enviados;
     }

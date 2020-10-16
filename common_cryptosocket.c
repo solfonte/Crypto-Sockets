@@ -10,7 +10,7 @@ int cryptosocket_init(cryptosocket_t* cryptosocket,
   return EXITO;
 }
 
-int _cryptosocket_enviar_mensaje_encriptado(char *buffer,
+int _cryptosocket_enviar_mensaje(char *buffer,
                                             size_t tamanio, void* callback_ctx){
   cryptosocket_t* cryptosocket = callback_ctx;
 //  void* key_aux = cryptosocket->encriptador->key;
@@ -19,7 +19,7 @@ int _cryptosocket_enviar_mensaje_encriptado(char *buffer,
   return socket_send(cryptosocket->socket,buffer,tamanio);
 }
 
-int _cryptosocket_recibir_mensaje_encriptado(char *buffer,void* callback_ctx){
+int _cryptosocket_recibir_mensaje(char *buffer,void* callback_ctx){
   cryptosocket_t* cryptosocket = callback_ctx;
   //void* key_aux = cryptosocket->encriptador->key;
   encriptador_encriptar(cryptosocket->encriptador,buffer,DESCIFRAR);

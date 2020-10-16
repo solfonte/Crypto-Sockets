@@ -1,4 +1,4 @@
-#define CANTIDAD_ARGUMENTOS 4
+#define CANTIDAD_ARG 4
 #define SOBRAN_ARG "SOBRAN ARGUMENTOS"
 #define FALTAN_ARG "FALTAN ARGUMENTOS"
 #define POSICION_PUERTO 1
@@ -20,7 +20,8 @@
 #include <sys/socket.h>
 #include <netdb.h>
 
-int datos_servidor_init(char const *datos[],char* puerto,char* metodo,char* key){
+int datos_servidor_init(char const *datos[],char* puerto,
+                        char* metodo,char* key){
   strncpy(puerto,datos[POSICION_PUERTO],TAMANIO_PUERTO);
   strncpy(metodo,datos[POSICION_METODO] + 9,TAMANIO_METODO);
   strncpy(key,datos[POSICION_KEY] + 6,TAMANIO_KEY);
@@ -29,8 +30,8 @@ int datos_servidor_init(char const *datos[],char* puerto,char* metodo,char* key)
 }
 
 int main(int argc, char const *argv[]) {
-  if (argc != CANTIDAD_ARGUMENTOS){
-    printf("ERROR: %s",(argc < CANTIDAD_ARGUMENTOS? FALTAN_ARG:SOBRAN_ARG));
+  if (argc != CANTIDAD_ARG){
+    printf("ERROR: %s",(argc < CANTIDAD_ARG? FALTAN_ARG:SOBRAN_ARG));
     return ERROR;
   }
   char puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY];
@@ -56,7 +57,7 @@ int main(int argc, char const *argv[]) {
   }
   cryptosocket_init(&cryptosocket,&peer,&encriptador);
   //socket_receive(&peer,buffer,TAMANIO_RESPUESTA);
-  socket_receive(&peer,_cryptosocket_recibir_mensaje_encriptado,&cryptosocket);
+  socket_receive(&peer,_cryptosocket_recibir_mensaje,&cryptosocket);
 
   socket_uninit(&peer,SHUT_RD);
   socket_uninit(&socket_aceptador,SHUT_RD);

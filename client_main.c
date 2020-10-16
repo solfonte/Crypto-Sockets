@@ -1,6 +1,6 @@
-#define CANTIDAD_ARGUMENTOS 5
-#define SOBRAN_ARGUMENTOS "SOBRAN ARGUMENTOS"
-#define FALTAN_ARGUMENTOS "FALTAN ARGUMENTOS"
+#define CANTIDAD_ARG 5
+#define SOBRAN_ARG "SOBRAN ARGUMENTOS"
+#define FALTAN_ARG "FALTAN ARGUMENTOS"
 #define POSICION_PUERTO 2
 #define POSICION_HOST 1
 #define POSICION_METODO 3
@@ -22,7 +22,8 @@
 #include <stdbool.h>//sacar despues
 
 
-int datos_cliente_init(char const* datos[],char* host,char* puerto,char* metodo,char* key){
+int datos_cliente_init(char const* datos[],char* host,
+                      char* puerto,char* metodo,char* key){
   //hacer chequeoss
   strncpy(host,datos[POSICION_HOST],TAMANIO_HOST);
   printf("host: %s\n",host);
@@ -30,21 +31,21 @@ int datos_cliente_init(char const* datos[],char* host,char* puerto,char* metodo,
   printf("puerto: %s\n",puerto);
   strncpy(metodo,datos[POSICION_METODO] + 9,TAMANIO_METODO);
   printf("metodo: %s\n",metodo);
-  strncpy(key,datos[POSICION_KEY] + 6,TAMANIO_KEY);//ver que onda por el largo
+  strncpy(key,datos[POSICION_KEY] + 6,TAMANIO_KEY);//largo?
   printf("key: %s\n",key);
-  //strncpy(archivo,datos[POSICION_ARCHIVO],TAMANIO_NOMBRE_ARCHIVO);//ver que onda por el largo
   return EXITO;
 }
 
 //./client 127.0.0.1 8080 --method=rc4 --key=queso < __client_stdin__
 
 int main(int argc, char const *argv[]) {
-  if (argc != CANTIDAD_ARGUMENTOS){
-    printf("ERROR: %s",argc < CANTIDAD_ARGUMENTOS? FALTAN_ARGUMENTOS:SOBRAN_ARGUMENTOS);
+  if (argc != CANTIDAD_ARG){
+    printf("ERROR: %s",argc < CANTIDAD_ARG? FALTAN_ARG:SOBRAN_ARG);
     return 0;
   }
 
-  char puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY],host[TAMANIO_HOST]/*,archivo[TAMANIO_NOMBRE_ARCHIVO]*/;//cambiar despues a stdin
+  char puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO];
+  char key[TAMANIO_KEY],host[TAMANIO_HOST]/*,archivo[TAMANIO_NOMBRE_ARCHIVO]*/;//cambiar despues a stdin
   socket_t client;
   lector_de_texto_t lector;
   cryptosocket_t cryptosocket;
@@ -61,8 +62,8 @@ int main(int argc, char const *argv[]) {
     return 0;
   }
   cryptosocket_init(&cryptosocket,&client,&encriptador);
-  int resultado_iterar = lector_de_texto_iterar(&lector,_cryptosocket_enviar_mensaje_encriptado,&cryptosocket);
-  if (resultado_iterar == ERROR){
+  int res_iterar = lector_de_texto_iterar(&lector,_cryptosocket_enviar_mensaje,&cryptosocket);
+  if (res_iterar == ERROR){
     printf("No se pudo enviar el mensaje correctamente\n");
   }
   socket_uninit(&client,SHUT_WR);
