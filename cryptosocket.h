@@ -1,9 +1,6 @@
 #ifndef __CRYPTOSOCKET_H__
 #define __CRYPTOSOCKET_H__
 
-#include <stddef.h>
-#include <stdint.h>
-#include <unistd.h>
 #include "socket.h"
 #include "encriptador.h"
 #define ERROR -1
