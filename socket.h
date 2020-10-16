@@ -3,6 +3,7 @@
 #define ERROR -1
 #define EXITO 0
 
+#define _POSIX_C_SOURCE
 #include <stddef.h>
 #include <stdint.h>
 #include <unistd.h>
