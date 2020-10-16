@@ -3,14 +3,13 @@
 #define ERROR -1
 #define EXITO 0
 
-#define _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 200112L
 #include <stddef.h>
 #include <stdint.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
-
 
 typedef struct{
   int fd;

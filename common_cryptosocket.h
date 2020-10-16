@@ -3,6 +3,7 @@
 
 #include "socket.h"
 #include "encriptador.h"
+
 #define ERROR -1
 #define EXITO 0
 

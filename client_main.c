@@ -11,14 +11,16 @@
 #define TAMANIO_METODO 10
 #define TAMANIO_KEY 30
 #define TAMANIO_NOMBRE_ARCHIVO 150
-
-#include "lector_de_texto.h"
 #include "cryptosocket.h"
-#include "encriptador.h"
+#include "lector_de_texto.h"
+#define _POSIX_C_SOURCE 200112L
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <stdbool.h>//sacar despues
+
 
 int datos_cliente_init(char const* datos[],char* host,char* puerto,char* metodo,char* key){
   //hacer chequeoss

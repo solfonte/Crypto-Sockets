@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "encriptador.h"
 #include <stdlib.h>
+
 #define TAMANIO_VECTOR_S 256
 
 
