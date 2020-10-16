@@ -45,7 +45,7 @@ int main(int argc, char const *argv[]) {
   }
 
   char puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO];
-  char key[TAMANIO_KEY],host[TAMANIO_HOST]/*,archivo[TAMANIO_NOMBRE_ARCHIVO]*/;//cambiar despues a stdin
+  char key[TAMANIO_KEY],host[TAMANIO_HOST];
   socket_t client;
   lector_de_texto_t lector;
   cryptosocket_t cryptosocket;
@@ -62,7 +62,8 @@ int main(int argc, char const *argv[]) {
     return 0;
   }
   cryptosocket_init(&cryptosocket,&client,&encriptador);
-  int res_iterar = lector_de_texto_iterar(&lector,_cryptosocket_enviar_mensaje,&cryptosocket);
+  int res_iterar = lector_de_texto_iterar(&lector,_cryptosocket_enviar_mensaje,
+                                          &cryptosocket);
   if (res_iterar == ERROR){
     printf("No se pudo enviar el mensaje correctamente\n");
   }

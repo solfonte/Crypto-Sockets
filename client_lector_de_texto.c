@@ -18,7 +18,8 @@ void lector_de_texto_uninit(lector_de_texto_t* lector){
 }
 
 int lector_de_texto_iterar(lector_de_texto_t* lector,
-                          int (*lector_de_texto_callback)(char *chunk, size_t chunk_size,
+                          int (*lector_de_texto_callback)(char *chunk,
+                          size_t chunk_size,
                           void *callback_ctx),void *callback_ctx){
   char buffer[TAMANIO_MENSAJE];
   int resultado = 0;
