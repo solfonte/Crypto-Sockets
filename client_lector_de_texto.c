@@ -22,7 +22,7 @@ int lector_de_texto_iterar(lector_de_texto_t* lector,
                           void *callback_ctx){
   char buffer[TAMANIO_MENSAJE];
   int resultado = 0;
-  while(!feof(lector->file_pointer) && resultado != ERROR){
+  while (!feof(lector->file_pointer) && resultado != ERROR){
     size_t leido = fread((void*)buffer,1,TAMANIO_MENSAJE,lector->file_pointer);
     resultado = lector_de_texto_callback(buffer,leido,callback_ctx);
   }

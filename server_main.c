@@ -1,6 +1,6 @@
 #define CANTIDAD_ARGUMENTOS 4
-#define SOBRAN_ARGUMENTOS "SOBRAN ARGUMENTOS"
-#define FALTAN_ARGUMENTOS "FALTAN ARGUMENTOS"
+#define SOBRAN_ARG "SOBRAN ARGUMENTOS"
+#define FALTAN_ARG "FALTAN ARGUMENTOS"
 #define POSICION_PUERTO 1
 #define POSICION_METODO 2
 #define POSICION_KEY 3
@@ -23,17 +23,17 @@
 int datos_servidor_init(char const *datos[],char* puerto,char* metodo,char* key){
   strncpy(puerto,datos[POSICION_PUERTO],TAMANIO_PUERTO);
   strncpy(metodo,datos[POSICION_METODO] + 9,TAMANIO_METODO);
-  strncpy(key,datos[POSICION_KEY] + 6,TAMANIO_KEY);//ver que onda por el largo y chequear estso errores
+  strncpy(key,datos[POSICION_KEY] + 6,TAMANIO_KEY);
+  //ver que onda por el largo y chequear estso errores
   return EXITO;
 }
 
 int main(int argc, char const *argv[]) {
   if (argc != CANTIDAD_ARGUMENTOS){
-    printf("ERROR: %s",(argc < CANTIDAD_ARGUMENTOS? FALTAN_ARGUMENTOS:SOBRAN_ARGUMENTOS));
+    printf("ERROR: %s",(argc < CANTIDAD_ARGUMENTOS? FALTAN_ARG:SOBRAN_ARG));
     return ERROR;
   }
   char puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY];
-//  char buffer[TAMANIO_RESPUESTA];//capaz no hace falta esto aca, sino adentro de recv directamente
   socket_t socket_aceptador,peer;
   int resultado;
   encriptador_t encriptador;
