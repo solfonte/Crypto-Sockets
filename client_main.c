@@ -12,20 +12,14 @@
 #define TAMANIO_KEY 30
 #define TAMANIO_NOMBRE_ARCHIVO 150
 
-
 #include "lector_de_texto.h"
 #include "socket.h"
-//#include "cryptosocket.h"
+#include "cryptosocket.h"
+#include "encriptador.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-
-//ver si esto deberia ir en otro lado
-int _enviar_mensaje(const char *buffer, size_t tamanio, void *callback_ctx){
-  socket_t* client = callback_ctx;
-  return socket_send(client,buffer,tamanio);
-}
 
 int datos_cliente_init(char const* datos[],char* host,char* puerto,char* metodo,char* key,char* archivo){
   //hacer chequeoss
@@ -52,19 +46,22 @@ int main(int argc, char const *argv[]) {
   char puerto[TAMANIO_PUERTO],metodo[TAMANIO_METODO],key[TAMANIO_KEY],host[TAMANIO_HOST],archivo[TAMANIO_NOMBRE_ARCHIVO];//cambiar despues a stdin
   socket_t client;
   lector_de_texto_t lector;
+  cryptosocket_t cryptosocket;
+  encriptador_t encriptador;
 
   //verificar retorno
   datos_cliente_init(argv,host,puerto,metodo,key,archivo);
   lector_de_texto_init(&lector,archivo);
+  encriptador_init(&encriptador,/*metodo*/encriptador_cesar_cifrar,(void*)key);
 
   //lector_de_texto_init(&lector,stdin);
-
   if(socket_connect(&client,host,puerto) == ERROR){
     printf("No pudo conectarse al servidor. Error: %s\n",strerror(errno));
     socket_uninit(&client,SHUT_WR);
     return 0;
   }
-  int resultado_iterar = lector_de_texto_iterar(&lector,_enviar_mensaje,&client);
+  cryptosocket_init(&cryptosocket,&client,&encriptador);
+  int resultado_iterar = lector_de_texto_iterar(&lector,_cryptosocket_enviar_mensaje_encriptado,&cryptosocket);
   if(resultado_iterar == ERROR){
     printf("No se pudo enviar el mensaje correctamente\n");
   }

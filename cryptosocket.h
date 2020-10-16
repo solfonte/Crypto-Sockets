@@ -5,22 +5,19 @@
 #include <stdint.h>
 #include <unistd.h>
 #include "socket.h"
-#include "encriptadores.h"
+#include "encriptador.h"
 #define ERROR -1
 #define EXITO 0
 
-typedef int (*encriptador_encriptar) (char* cadena,void* key);
-
 typedef struct {
   socket_t* socket;
-  encriptador_encriptar* metodo;
-  void* key;
-}
-int cryptosocket_init(cryptosocket_t* cryptosocket,int (*encriptador_callback)(char* buffer,void*key));
+  encriptador_t* encriptador;
+}cryptosocket_t;
 
-int cryptosocket_cifrar(const char *buffer, size_t tamanio, void *callback_ctx);
+int cryptosocket_init(cryptosocket_t* cryptosocket,socket_t* socket,encriptador_t* encriptador);
 
-int cryptosocket_init(cryptosocket_t* cryptosocket,int (*encriptador_callback)(char* buffer,void*key));
+int _cryptosocket_enviar_mensaje_encriptado(char* buffer, size_t tamanio, void *callback_ctx);
 
+int _cryptosocket_recibir_mensaje_encriptado(cryptosocket_t* cryptosocket,char* buffer, size_t tamanio);
 
 #endif

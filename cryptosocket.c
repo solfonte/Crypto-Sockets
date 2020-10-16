@@ -1,13 +1,22 @@
-#include "cryptosocket_encriptar.h"
+#include "cryptosocket.h"
+#define TAMANIO_RESPUESTA 10
 
-int cryptosocket_init(cryptosocket_t* cryptosocket,int (*encriptador_callback)(char* buffer,void*key)){
 
+int cryptosocket_init(cryptosocket_t* cryptosocket,socket_t* socket,encriptador_t* encriptador){
+  cryptosocket->socket = socket;
+  cryptosocket->encriptador = encriptador;
+  return EXITO;
 }
 
-int cryptosocket_cifrar(const char *buffer, size_t tamanio, void *callback_ctx){
+int _cryptosocket_enviar_mensaje_encriptado(char *buffer, size_t tamanio, void* callback_ctx){
   cryptosocket_t* cryptosocket = callback_ctx;
-  int resultado_cifrar = cryptosocket->metodo((char*)buffer,cryptosocket->key);
-  return (resultado_cifrar == ERROR? ERROR: socket_send(client,buffer,tamanio));
+  void* key_aux = cryptosocket->encriptador->key;
+  cryptosocket->encriptador->metodo(buffer,key_aux);
+  return socket_send(cryptosocket->socket,buffer,tamanio);
+}
 
-
+int _cryptosocket_recibir_mensaje_encriptado(cryptosocket_t* cryptosocket,char *buffer, size_t tamanio){
+  void* key_aux = cryptosocket->encriptador->key;
+  cryptosocket->encriptador->metodo(buffer,key_aux);
+  return socket_receive(cryptosocket->socket,buffer,TAMANIO_RESPUESTA);
 }

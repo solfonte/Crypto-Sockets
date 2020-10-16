@@ -86,22 +86,19 @@ int socket_send(socket_t* self, const char* buffer, size_t length){
   return (bytes_enviados == ERROR? ERROR:EXITO);
 }
 
-ssize_t socket_receive(socket_t* self, char* buffer, size_t length){
+int socket_receive(socket_t* self, char* buffer, size_t length){
   ssize_t bytes_recibidos = 0;
-  bool termine = false, fallo_rcv = false;
-  ssize_t resultado = 0;
-  while(!termine && !fallo_rcv){
-    resultado = recv(self->fd,buffer,length - (size_t)bytes_recibidos - 1,0);
-    bytes_recibidos = resultado;
+  bool termine = false;
+  ssize_t resultado_recv = 0;
+  while(!termine && resultado_recv!= ERROR){
+    resultado_recv = recv(self->fd,buffer,length - (size_t)bytes_recibidos - 1,0);
+    bytes_recibidos = resultado_recv;
     buffer[bytes_recibidos] = 0;
     printf("%s",buffer);
-    if(resultado == -1){
-      fallo_rcv = true;
-    }
     if(bytes_recibidos == (size_t)length - 1){
       bytes_recibidos = 0;
     }
-    if(resultado == 0){
+    if(resultado_recv == 0){
       termine = true;
     }
   }
