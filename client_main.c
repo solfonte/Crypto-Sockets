@@ -13,7 +13,6 @@
 #define TAMANIO_NOMBRE_ARCHIVO 150
 
 #include "lector_de_texto.h"
-#include "socket.h"
 #include "cryptosocket.h"
 #include "encriptador.h"
 #include <stdio.h>
