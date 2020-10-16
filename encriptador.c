@@ -5,41 +5,46 @@
 #define TAMANIO_VECTOR_S 256
 
 
-int encriptador_init(encriptador_t* encriptador,int (*encriptador_encriptar)(char* buffer,void*key),void*key){
-  encriptador->metodo = encriptador_encriptar;
+
+void encriptador_encriptar(encriptador_t* encriptador,char* buffer,int modo){
+  if(strcmp(encriptador->metodo,"cesar") == 0){
+    encriptador_cesar(buffer,encriptador->key,modo);
+  }else if(strcmp(encriptador->metodo,"vigenere") == 0){
+    encriptador_vigenere(buffer,encriptador->key,modo);
+  }else if(strcmp(encriptador->metodo,"rc4") == 0){
+    encriptador_rc4(buffer,encriptador->key);
+  }
+}
+
+int encriptador_init(encriptador_t* encriptador,char* metodo/*int (*encriptador_encriptar)(char* buffer,void*key)*/,void*key){
+  encriptador->metodo = metodo/*encriptador_encriptar*/;
   encriptador->key = key;
   return EXITO;
 }
 
-
-//cambiar a encriptador_metodo y que reciban un encriptador
-
-//hay mucho codigo repetido en los cifrados de cesar y vigenere
-int encriptador_cesar_cifrar(char* cadena,void* key){
+int encriptador_cesar(char* cadena,void* key,int modo){
   unsigned char* cadena_aux = (unsigned char*)cadena;
   int key_aux = atoi((char*)key);
   while(*cadena_aux != '\0'){
-    *cadena_aux = (unsigned char)(*cadena_aux + key_aux) /*% 256*/;
+    if(modo == CIFRAR){
+      *cadena_aux = (unsigned char)(*cadena_aux + key_aux);
+    }else{
+      *cadena_aux = (unsigned char)(*cadena_aux - key_aux) /*% 256*/;
+    }
     cadena_aux++;
   }
   return EXITO;
 }
 
-int encriptador_cesar_descifrar(char*cadena,void* key){
-  int key_aux = atoi((char*)key);
-  unsigned char* cadena_aux = (unsigned char*)cadena;
-  while(*cadena_aux != '\0'){
-    *cadena_aux = (unsigned char)(*cadena_aux - key_aux) /*% 256*/;
-    cadena_aux++;
-  }
-  return EXITO;
-}
-
-int cifrado_de_vigenere(char* cadena,void* key){
+int encriptador_vigenere(char* cadena,void* key,int modo){
   unsigned char* cadena_aux = (unsigned char*)cadena;
   unsigned char* key_aux = (unsigned char*)key;
   while(*cadena_aux != '\0'){
-    *cadena_aux = (unsigned char)(*cadena_aux + *key_aux)/* % 256*/;
+    if(modo == CIFRAR){
+      *cadena_aux = (unsigned char)(*cadena_aux + *key_aux);
+    }else{
+      *cadena_aux = (unsigned char)(*cadena_aux - *key_aux);
+    }
     printf("|%i|",(int)*cadena_aux);
     cadena_aux++;
     key_aux++;
@@ -48,20 +53,6 @@ int cifrado_de_vigenere(char* cadena,void* key){
     }
   }
   printf("\n");
-  return EXITO;
-}
-
-int descifrado_de_vigenere(char* cadena,void* key){
-  unsigned char* cadena_aux = (unsigned char*)cadena;
-  unsigned char* key_aux = (unsigned char*)key;
-  while(*cadena_aux != '\0'){
-    *cadena_aux = (unsigned char)(*cadena_aux - *key_aux)/* % 256*/;
-    cadena_aux++;
-    key_aux++;
-    if(*key_aux == '\0'){
-      key_aux = (unsigned char*)key;
-    }
-  }
   return EXITO;
 }
 
@@ -94,7 +85,7 @@ static unsigned char rc4_output(unsigned char* vector_s) {
     return vector_s[(vector_s[i] + vector_s[j]) % TAMANIO_VECTOR_S];
 }
 
-int cifrado_de_rc4(char* cadena,void* key){
+int encriptador_rc4(char* cadena,void* key){
   char* key_aux = (char*)key;
   unsigned char vector_s[TAMANIO_VECTOR_S];
   unsigned char* cadena_aux = (unsigned char*)cadena;
@@ -103,21 +94,6 @@ int cifrado_de_rc4(char* cadena,void* key){
     *cadena_aux = (unsigned char)(*cadena_aux ^ rc4_output(vector_s));
   //  printf("|%x|",(int)*cadena_aux);
 
-    cadena_aux = cadena_aux + 1;
-
-  }
-    return EXITO;
-
-}
-
-int descifrado_de_rc4(char* cadena,void* key){
-  char* key_aux = (char*)key;
-  unsigned char vector_s[TAMANIO_VECTOR_S];
-  unsigned char* cadena_aux = (unsigned char*)cadena;
-  ksa((unsigned char*)key_aux,strlen(key_aux),vector_s);
-  while(*cadena_aux != '\0'){
-    *cadena_aux = (unsigned char)(*cadena_aux ^ rc4_output(vector_s));
-    //printf("|%x|",(int)*cadena_aux);
     cadena_aux = cadena_aux + 1;
 
   }
