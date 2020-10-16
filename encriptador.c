@@ -5,7 +5,6 @@
 #define TAMANIO_VECTOR_S 256
 
 
-
 void encriptador_encriptar(encriptador_t* encriptador,char* buffer,int modo){
   if(strcmp(encriptador->metodo,"cesar") == 0){
     encriptador_cesar(buffer,encriptador->key,modo);

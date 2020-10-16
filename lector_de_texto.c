@@ -1,9 +1,13 @@
 #include "lector_de_texto.h"
 #define TAMANIO_MENSAJE 10
 
-int lector_de_texto_init(lector_de_texto_t* lector,const char* archivo){
+int lector_de_texto_init(lector_de_texto_t* lector/*,const char* archivo*/){
+  lector->file_pointer = stdin;
+  return 0;
+
+  /*
   lector->file_pointer = fopen(archivo,"rd");
-  return (lector->file_pointer == NULL?ERROR:EXITO);
+  return (lector->file_pointer == NULL?ERROR:EXITO);*/
 }
 
 void lector_de_texto_uninit(lector_de_texto_t* lector){
