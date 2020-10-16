@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include "socket.h"
 #define TAMANIO_MENSAJE 10
+#define TAMANIO_RESPUESTA 10
+//capaz sacar TAMANIO_RESPUESTA
 
 static void hints_innit(struct addrinfo* hints,int ai_family,int ai_socktype,int ai_flags){
   memset(hints,0,sizeof(struct addrinfo));
@@ -86,6 +88,29 @@ int socket_send(socket_t* self, const char* buffer, size_t length){
   return (bytes_enviados == ERROR? ERROR:EXITO);
 }
 
+int socket_receive(socket_t* self, int (*socket_callback)(char* chunk,void* callback_ctx),void*callback_ctx){
+  ssize_t bytes_recibidos = 0;
+  bool termine = false;
+  ssize_t resultado_recv = 0;
+  char buffer[TAMANIO_RESPUESTA];
+  size_t length = TAMANIO_RESPUESTA;
+  while(!termine && resultado_recv!= ERROR){
+    resultado_recv = recv(self->fd,buffer,length - (size_t)bytes_recibidos - 1,0);
+    bytes_recibidos = resultado_recv;
+    buffer[bytes_recibidos] = 0;
+    socket_callback(buffer,callback_ctx);
+    if(bytes_recibidos == (size_t)length - 1){
+      bytes_recibidos = 0;
+    }
+    if(resultado_recv == 0){
+      termine = true;
+    }
+  }
+  printf("\n");
+  return EXITO;
+}
+
+/*
 int socket_receive(socket_t* self, char* buffer, size_t length){
   ssize_t bytes_recibidos = 0;
   bool termine = false;
@@ -105,3 +130,4 @@ int socket_receive(socket_t* self, char* buffer, size_t length){
   printf("\n");
   return EXITO;
 }
+*/
