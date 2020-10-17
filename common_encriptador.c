@@ -29,9 +29,9 @@ int encriptador_cesar(char* cadena,size_t tamanio,void* key,int modo){
   int key_aux = atoi((char*)key);
   while (i < tamanio){
     if (modo == CIFRAR){
-      cadena_aux[i] = (unsigned char)(*cadena_aux + key_aux);
+      cadena_aux[i] = (unsigned char)(cadena_aux[i] + key_aux);
     }else{
-      cadena_aux[i] = (unsigned char)(*cadena_aux - key_aux);
+      cadena_aux[i] = (unsigned char)(cadena_aux[i] - key_aux);
     }
     i++;
   }
@@ -44,15 +44,16 @@ int encriptador_vigenere(char* cadena,size_t tamanio,void* key,int modo){
   unsigned char* key_aux = (unsigned char*)key;
   while (i < tamanio){
     if (modo == CIFRAR){
-      cadena_aux[i] = (unsigned char)(*cadena_aux + *key_aux);
+      cadena_aux[i] = (unsigned char)(cadena_aux[i] + *key_aux);
     }else{
-      cadena_aux[i] = (unsigned char)(*cadena_aux - *key_aux);
+      cadena_aux[i] = (unsigned char)(cadena_aux[i] - *key_aux);
     }
-    printf("|%i|",(int)*cadena_aux);
+    printf("|%i|",(int)cadena_aux[i]);
     key_aux++;
     if (*key_aux == '\0'){
       key_aux = (unsigned char*)key;
     }
+    i++;
   }
   printf("\n");
   return EXITO;

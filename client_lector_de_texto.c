@@ -14,7 +14,7 @@ int lector_de_texto_iterar(lector_de_texto_t* lector,
                           int (*lector_de_texto_callback)(char *chunk,
                           size_t chunk_size,
                           void *callback_ctx),void *callback_ctx){
-  char buffer[TAMANIO_MENSAJE];
+  char buffer[TAMANIO_MENSAJE] = "";
   int resultado = 0;
   while (!feof(lector->file_pointer) && resultado != ERROR){
     size_t leido = fread(buffer,1,TAMANIO_MENSAJE,lector->file_pointer);
