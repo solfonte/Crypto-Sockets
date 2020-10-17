@@ -83,7 +83,8 @@ int socket_send(socket_t* self, const char* buffer, size_t length){
   size_t bytes_no_env = length;
   bool hubo_un_error = false, termine = false;
   ssize_t bytes_env = 0;
-  while (!hubo_un_error && !termine/*bytes_no_env > 0 && bytes_env != ERROR*/){
+  while (!hubo_un_error && !termine){
+    /*bytes_no_env > 0 && bytes_env != ERROR*/
     size_t tam_enviar = length - (size_t)bytes_env;
     bytes_env = send(self->fd,&buffer[bytes_env],tam_enviar,MSG_NOSIGNAL);
     if (bytes_env == ERROR){
