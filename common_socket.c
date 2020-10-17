@@ -84,7 +84,7 @@ int socket_send(socket_t* self, const char* buffer, size_t length){
   ssize_t bytes_env = 0;
   while (!hubo_un_error && !termine){
     size_t tam_enviar = length - (size_t)bytes_env;
-    int res_env = send(self->fd,&buffer[bytes_env],
+    ssize_t res_env = send(self->fd,&buffer[bytes_env],
                       tam_enviar,MSG_NOSIGNAL);
     if (res_env == ERROR){
       hubo_un_error = true;
@@ -94,21 +94,6 @@ int socket_send(socket_t* self, const char* buffer, size_t length){
       bytes_env += res_env;
     }
   }
-  /*
-  size_t bytes_no_env = length;
-  bool hubo_un_error = false, termine = false;
-  ssize_t bytes_env = 0;
-  while (!hubo_un_error && !termine){
-    size_t tam_enviar = length - (size_t)bytes_env;
-    bytes_env = send(self->fd,&buffer[bytes_env],tam_enviar,MSG_NOSIGNAL);
-    if (bytes_env == ERROR){
-      hubo_un_error = true;
-    }else if (bytes_env == 0){
-      termine = true;
-    }else{
-      bytes_no_env = bytes_no_env - (size_t)bytes_env;
-    }
-  }*/
   return (bytes_env == ERROR? ERROR:EXITO);
 }
 
@@ -124,7 +109,7 @@ int socket_receive(socket_t* self,
     ssize_t resultado_recv = recv(self->fd,&buffer[bytes_recv],tam_recv,0);
     bytes_recv = resultado_recv;
     if (resultado_recv == ERROR){
-      hubo_error = true;;
+      hubo_error = true;
     }else if (resultado_recv == 0){
       termine = true;
     }else{
