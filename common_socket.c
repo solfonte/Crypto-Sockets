@@ -80,6 +80,21 @@ int socket_connect(socket_t *self, const char *host, const char *service){
 }
 
 int socket_send(socket_t* self, const char* buffer, size_t length){
+  bool hubo_un_error = false, termine = false;
+  ssize_t bytes_env = 0;
+  while (!hubo_un_error && !termine){
+    size_t tam_enviar = length - (size_t)bytes_env;
+    int res_env = send(self->fd,&buffer[bytes_env],
+                      tam_enviar,MSG_NOSIGNAL);
+    if (res_env == ERROR){
+      hubo_un_error = true;
+    }else if (res_env == 0){
+      termine = true;
+    }else{
+      bytes_env += res_env;
+    }
+  }
+  /*
   size_t bytes_no_env = length;
   bool hubo_un_error = false, termine = false;
   ssize_t bytes_env = 0;
@@ -93,7 +108,7 @@ int socket_send(socket_t* self, const char* buffer, size_t length){
     }else{
       bytes_no_env = bytes_no_env - (size_t)bytes_env;
     }
-  }
+  }*/
   return (bytes_env == ERROR? ERROR:EXITO);
 }
 
@@ -117,15 +132,6 @@ int socket_receive(socket_t* self,
       buffer[bytes_recv] = '\0';
       bytes_recv = 0;
     }
-    /*
-    socket_callback(buffer,(size_t)bytes_recv,callback_ctx);
-    if (bytes_recv == (size_t)length){
-      buffer[bytes_recv - 1] = '\0';
-      bytes_recv = 0;
-    }
-    if (resultado_recv == 0){
-      termine = true;
-    }*/
 }
   printf("\n");
   return EXITO;

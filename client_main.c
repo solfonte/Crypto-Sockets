@@ -9,8 +9,7 @@
 #define TAMANIO_HOST 15
 #define TAMANIO_PUERTO 10
 #define TAMANIO_METODO 10
-#define TAMANIO_KEY 30
-#define TAMANIO_NOMBRE_ARCHIVO 150
+#define TAMANIO_KEY 150
 #include "common_cryptosocket.h"
 #include "client_lector_de_texto.h"
 #define _POSIX_C_SOURCE 200112L
@@ -26,13 +25,9 @@ int datos_cliente_init(char const* datos[],char* host,
                       char* puerto,char* metodo,char* key){
   //hacer chequeoss
   strncpy(host,datos[POSICION_HOST],TAMANIO_HOST);
-  printf("host: %s\n",host);
   strncpy(puerto,datos[POSICION_PUERTO],TAMANIO_PUERTO);
-  printf("puerto: %s\n",puerto);
   strncpy(metodo,datos[POSICION_METODO] + 9,TAMANIO_METODO);
-  printf("metodo: %s\n",metodo);
-  strncpy(key,datos[POSICION_KEY] + 6,TAMANIO_KEY);//largo?
-  printf("key: %s\n",key);
+  strncpy(key,datos[POSICION_KEY] + 6,TAMANIO_KEY);
   return EXITO;
 }
 
