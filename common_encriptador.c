@@ -25,13 +25,15 @@ int encriptador_init(encriptador_t* encriptador,char* metodo,void*key){
 int encriptador_cesar(char* cadena,void* key,int modo){
   unsigned char* cadena_aux = (unsigned char*)cadena;
   int key_aux = atoi((char*)key);
-  while (*cadena_aux != '\0'){
+  int i = 0,tamanio_cadena = strlen(cadena_aux);
+  while (i < tamanio_cadena){
+    /**cadena_aux != '\0'*/
     if (modo == CIFRAR){
-      *cadena_aux = (unsigned char)(*cadena_aux + key_aux);
+      cadena_aux[i] = (unsigned char)(*cadena_aux + key_aux);
     }else{
-      *cadena_aux = (unsigned char)(*cadena_aux - key_aux);
+      cadena_aux[i] = (unsigned char)(*cadena_aux - key_aux);
     }
-    cadena_aux++;
+    i++;
   }
   return EXITO;
 }
