@@ -60,7 +60,7 @@ int socket_accept(socket_t* listener,socket_t*peer){
 }
 
 int socket_connect(socket_t *self, const char *host, const char *service){
-//  bool conecte = false;
+  bool conecte = false;
   struct addrinfo hints;
   struct addrinfo* resultados,*ptr;
   hints_innit(&hints,AF_INET,SOCK_STREAM,0);
@@ -68,14 +68,14 @@ int socket_connect(socket_t *self, const char *host, const char *service){
     return ERROR;
   }
   ptr = resultados;
-  //while (ptr != NULL && !conecte){
+  while (ptr != NULL && !conecte){
     int res_skt = socket_init(self,ptr);
     if (res_skt != ERROR){
-      /*int res_connect = */connect(self->fd,ptr->ai_addr,ptr->ai_addrlen);
-    //  conecte = (res_connect != ERROR?true:false);
+      int res_connect = connect(self->fd,ptr->ai_addr,ptr->ai_addrlen);
+      conecte = (res_connect != ERROR?true:false);
     }
-  //  ptr = ptr->ai_next;
-  //}
+    ptr = ptr->ai_next;
+  }
   freeaddrinfo(resultados);
   return (self->fd < 0? ERROR:EXITO);
 }
@@ -97,11 +97,11 @@ int socket_receive(socket_t* self,
                   int (*socket_callback)(char* chunk,void* callback_ctx),
                   void*callback_ctx){
   ssize_t bytes_recibidos = 0;
-  bool termine = false;
+//  bool termine = false;
   ssize_t resultado_recv = 0;
   char buffer[TAMANIO_RESPUESTA];
   size_t length = TAMANIO_RESPUESTA;
-  while (!termine && resultado_recv!= ERROR){
+  //while (!termine && resultado_recv!= ERROR){
     size_t tam_enviar = length - (size_t)bytes_recibidos - 1;
     resultado_recv = recv(self->fd,buffer,tam_enviar,0);
     bytes_recibidos = resultado_recv;
@@ -110,10 +110,10 @@ int socket_receive(socket_t* self,
     if (bytes_recibidos == (size_t)length - 1){
       bytes_recibidos = 0;
     }
-    if (resultado_recv == 0){
+  /*  if (resultado_recv == 0){
       termine = true;
-    }
-  }
+    }*/
+  //}
   printf("\n");
   return EXITO;
 }

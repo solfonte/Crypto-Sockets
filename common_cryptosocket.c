@@ -11,17 +11,14 @@ int cryptosocket_init(cryptosocket_t* cryptosocket,
 }
 
 int _cryptosocket_enviar_mensaje(char *buffer,
-                                            size_t tamanio, void* callback_ctx){
+                                size_t tamanio, void* callback_ctx){
   cryptosocket_t* cryptosocket = callback_ctx;
-//  void* key_aux = cryptosocket->encriptador->key;
-  //cryptosocket->encriptador->metodo(buffer,key_aux);
   encriptador_encriptar(cryptosocket->encriptador,buffer,CIFRAR);
   return socket_send(cryptosocket->socket,buffer,tamanio);
 }
 
 int _cryptosocket_recibir_mensaje(char *buffer,void* callback_ctx){
   cryptosocket_t* cryptosocket = callback_ctx;
-  //void* key_aux = cryptosocket->encriptador->key;
   encriptador_encriptar(cryptosocket->encriptador,buffer,DESCIFRAR);
   //cryptosocket->encriptador->metodo/*(buffer,key_aux)*/;
   printf("%s",buffer);
