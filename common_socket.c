@@ -4,7 +4,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include "common_socket.h"
-#define TAMANIO_MENSAJE 64
 #define TAMANIO_RESPUESTA 64
 //capaz sacar TAMANIO_RESPUESTA
 
@@ -97,23 +96,23 @@ int socket_receive(socket_t* self,
                   int (*socket_callback)(char* chunk,void* callback_ctx),
                   void*callback_ctx){
   ssize_t bytes_recibidos = 0;
-//  bool termine = false;
+  bool termine = false;
   ssize_t resultado_recv = 0;
   char buffer[TAMANIO_RESPUESTA];
   size_t length = TAMANIO_RESPUESTA;
-  //while (!termine && resultado_recv!= ERROR){
+  while (!termine && resultado_recv!= ERROR){
     size_t tam_enviar = length - (size_t)bytes_recibidos - 1;
     resultado_recv = recv(self->fd,buffer,tam_enviar,0);
     bytes_recibidos = resultado_recv;
     buffer[bytes_recibidos] = '\0';
     socket_callback(buffer,callback_ctx);
-    /*if (bytes_recibidos == (size_t)length - 1){
+    if (bytes_recibidos == (size_t)length - 1){
       bytes_recibidos = 0;
-    }*/
-  /*  if (resultado_recv == 0){
+    }
+    if (resultado_recv == 0){
       termine = true;
-    }*/
-  //}
+    }
+  }
   printf("\n");
   return EXITO;
 }
