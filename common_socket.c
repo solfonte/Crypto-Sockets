@@ -4,8 +4,8 @@
 #include <string.h>
 #include <stdbool.h>
 #include "common_socket.h"
-#define TAMANIO_MENSAJE 10
-#define TAMANIO_RESPUESTA 10
+#define TAMANIO_MENSAJE 64
+#define TAMANIO_RESPUESTA 64
 //capaz sacar TAMANIO_RESPUESTA
 
 static void hints_innit(struct addrinfo* hints,
