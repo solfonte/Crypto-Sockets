@@ -105,7 +105,7 @@ int socket_receive(socket_t* self,
     size_t tam_enviar = length - (size_t)bytes_recibidos - 1;
     resultado_recv = recv(self->fd,buffer,tam_enviar,0);
     bytes_recibidos = resultado_recv;
-    buffer[bytes_recibidos] = 0;
+    buffer[bytes_recibidos] = '\0';
     socket_callback(buffer,callback_ctx);
     if (bytes_recibidos == (size_t)length - 1){
       bytes_recibidos = 0;
