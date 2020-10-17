@@ -101,22 +101,32 @@ int socket_receive(socket_t* self,
                   int (*socket_callback)(char* chunk,size_t tamanio,
                   void* callback_ctx),void*callback_ctx){
   ssize_t bytes_recv = 0;
-  bool termine = false;
+  bool termine = false, hubo_error = false;
   ssize_t resultado_recv = 0;
   char buffer[TAMANIO_RESPUESTA];
   size_t length = TAMANIO_RESPUESTA;
-  while (!termine && resultado_recv!= ERROR){
-    size_t tam_recv = length - (size_t)bytes_recv;
+  while (!termine && !hubo_error){
+    size_t tam_recv = length - (size_t)bytes_recv - 1;
     resultado_recv = recv(self->fd,&buffer[bytes_recv],tam_recv,0);
     bytes_recv = resultado_recv;
-    buffer[bytes_recv] = '\0';
+    if (resultado_recv == ERROR){
+      hubo_error = true;;
+    }else if (resultado_recv == 0){
+      termine = true;
+    }else{
+      socket_callback(buffer,(size_t)bytes_recv,callback_ctx);
+      buffer[bytes_recv] = '\0';
+      bytes_recv = 0;
+    }
+    /*
     socket_callback(buffer,(size_t)bytes_recv,callback_ctx);
     if (bytes_recv == (size_t)length){
+      buffer[bytes_recv - 1] = '\0';
       bytes_recv = 0;
     }
     if (resultado_recv == 0){
       termine = true;
-    }
+    }*/
 }
   printf("\n");
   return EXITO;

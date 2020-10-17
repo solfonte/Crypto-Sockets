@@ -1,6 +1,5 @@
 #include "common_cryptosocket.h"
 #include <stdio.h>
-#define TAMANIO_RESPUESTA 64
 
 
 int cryptosocket_init(cryptosocket_t* cryptosocket,
@@ -21,6 +20,6 @@ int _cryptosocket_recibir_mensaje(char *buffer,
                                 size_t tamanio,void* callback_ctx){
   cryptosocket_t* cryptosocket = callback_ctx;
   encriptador_encriptar(cryptosocket->encriptador,buffer,tamanio,DESCIFRAR);
-  //fwrite(cachito, 1, largo, stdout);
+  fwrite(buffer, 1, tamanio, stdout);
   return EXITO;
 }
