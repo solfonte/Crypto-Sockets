@@ -89,7 +89,7 @@ int socket_send(socket_t* self, const char* buffer, size_t length){
     bytes_env = send(self->fd,&buffer[bytes_env],tam_enviar,MSG_NOSIGNAL);
     if (bytes_env == ERROR){
       hubo_un_error = true;
-    }else if(bytes_env == 0){
+    }else if (bytes_env == 0){
       termine = true;
     }else{
       bytes_no_env = bytes_no_env - (size_t)bytes_env;
@@ -107,7 +107,6 @@ int socket_receive(socket_t* self,
   char buffer[TAMANIO_RESPUESTA];
   size_t length = TAMANIO_RESPUESTA;
   while (!termine && resultado_recv!= ERROR){
-
     size_t tam_recv = length - (size_t)bytes_recibidos - 1;
     resultado_recv = recv(self->fd,buffer,tam_recv,0);
     bytes_recibidos = resultado_recv;
