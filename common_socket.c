@@ -60,7 +60,7 @@ int socket_accept(socket_t* listener,socket_t*peer){
 }
 
 int socket_connect(socket_t *self, const char *host, const char *service){
-  bool conecte = false;
+//  bool conecte = false;
   struct addrinfo hints;
   struct addrinfo* resultados,*ptr;
   hints_innit(&hints,AF_INET,SOCK_STREAM,0);
@@ -68,14 +68,14 @@ int socket_connect(socket_t *self, const char *host, const char *service){
     return ERROR;
   }
   ptr = resultados;
-  while (ptr != NULL && !conecte){
+  //while (ptr != NULL && !conecte){
     int res_skt = socket_init(self,ptr);
     if (res_skt != ERROR){
-      int res_connect = connect(self->fd,ptr->ai_addr,ptr->ai_addrlen);
-      conecte = (res_connect != ERROR?true:false);
+      /*int res_connect = */connect(self->fd,ptr->ai_addr,ptr->ai_addrlen);
+    //  conecte = (res_connect != ERROR?true:false);
     }
-    ptr = ptr->ai_next;
-  }
+  //  ptr = ptr->ai_next;
+  //}
   freeaddrinfo(resultados);
   return (self->fd < 0? ERROR:EXITO);
 }
