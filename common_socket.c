@@ -102,12 +102,11 @@ int socket_receive(socket_t* self,
                   void* callback_ctx),void*callback_ctx){
   ssize_t bytes_recv = 0;
   bool termine = false, hubo_error = false;
-  ssize_t resultado_recv = 0;
   char buffer[TAMANIO_RESPUESTA];
   size_t length = TAMANIO_RESPUESTA;
   while (!termine && !hubo_error){
     size_t tam_recv = length - (size_t)bytes_recv - 1;
-    resultado_recv = recv(self->fd,&buffer[bytes_recv],tam_recv,0);
+    ssize_t resultado_recv = recv(self->fd,&buffer[bytes_recv],tam_recv,0);
     bytes_recv = resultado_recv;
     if (resultado_recv == ERROR){
       hubo_error = true;;
