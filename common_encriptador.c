@@ -6,13 +6,13 @@
 #define TAMANIO_VECTOR_S 256
 
 
-void encriptador_encriptar(encriptador_t* encriptador,char* buffer,int modo){
+void encriptador_encriptar(encriptador_t* encriptador,char* buffer,size_t tamanio,int modo){
   if (strcmp(encriptador->metodo,"cesar") == 0){
-    encriptador_cesar(buffer,encriptador->key,modo);
+    encriptador_cesar(buffer,tamanio,encriptador->key,modo);
   }else if (strcmp(encriptador->metodo,"vigenere") == 0){
-    encriptador_vigenere(buffer,encriptador->key,modo);
+    encriptador_vigenere(buffer,tamanio,encriptador->key,modo);
   }else if (strcmp(encriptador->metodo,"rc4") == 0){
-    encriptador_rc4(buffer,encriptador->key);
+    encriptador_rc4(buffer,tamanio,encriptador->key);
   }
 }
 
@@ -22,12 +22,11 @@ int encriptador_init(encriptador_t* encriptador,char* metodo,void*key){
   return EXITO;
 }
 
-int encriptador_cesar(char* cadena,void* key,int modo){
+int encriptador_cesar(char* cadena,size_t tamanio,void* key,int modo){
+  int i = 0;
   unsigned char* cadena_aux = (unsigned char*)cadena;
   int key_aux = atoi((char*)key);
-  int i = 0,tamanio_cadena = strlen(cadena_aux);
-  while (i < tamanio_cadena){
-    /**cadena_aux != '\0'*/
+  while (i < tamanio){
     if (modo == CIFRAR){
       cadena_aux[i] = (unsigned char)(*cadena_aux + key_aux);
     }else{
@@ -38,17 +37,17 @@ int encriptador_cesar(char* cadena,void* key,int modo){
   return EXITO;
 }
 
-int encriptador_vigenere(char* cadena,void* key,int modo){
+int encriptador_vigenere(char* cadena,size_t tamanio,void* key,int modo){
+  int i = 0;
   unsigned char* cadena_aux = (unsigned char*)cadena;
   unsigned char* key_aux = (unsigned char*)key;
-  while (*cadena_aux != '\0'){
+  while (i < tamanio){
     if (modo == CIFRAR){
-      *cadena_aux = (unsigned char)(*cadena_aux + *key_aux);
+      cadena_aux[i] = (unsigned char)(*cadena_aux + *key_aux);
     }else{
-      *cadena_aux = (unsigned char)(*cadena_aux - *key_aux);
+      cadena_aux[i] = (unsigned char)(*cadena_aux - *key_aux);
     }
     printf("|%i|",(int)*cadena_aux);
-    cadena_aux++;
     key_aux++;
     if (*key_aux == '\0'){
       key_aux = (unsigned char*)key;
@@ -86,7 +85,7 @@ static unsigned char rc4_output(unsigned char* vector_s) {
     return vector_s[(vector_s[i] + vector_s[j]) % TAMANIO_VECTOR_S];
 }
 
-int encriptador_rc4(char* cadena,void* key){
+int encriptador_rc4(char* cadena,size_t tamanio,void* key){
   char* key_aux = (char*)key;
   unsigned char vector_s[TAMANIO_VECTOR_S];
   unsigned char* cadena_aux = (unsigned char*)cadena;

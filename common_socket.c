@@ -99,8 +99,8 @@ int socket_send(socket_t* self, const char* buffer, size_t length){
 }
 
 int socket_receive(socket_t* self,
-                  int (*socket_callback)(char* chunk,void* callback_ctx),
-                  void*callback_ctx){
+                  int (*socket_callback)(char* chunk,size_t tamanio,
+                  void* callback_ctx),void*callback_ctx){
   ssize_t bytes_recibidos = 0;
   bool termine = false;
   ssize_t resultado_recv = 0;
@@ -111,7 +111,7 @@ int socket_receive(socket_t* self,
     resultado_recv = recv(self->fd,buffer,tam_recv,0);
     bytes_recibidos = resultado_recv;
     buffer[bytes_recibidos] = '\0';
-    socket_callback(buffer,callback_ctx);
+    socket_callback(buffer,(size_t)bytes_recibidos,callback_ctx);
     if (bytes_recibidos == (size_t)length - 1){
       bytes_recibidos = 0;
     }
