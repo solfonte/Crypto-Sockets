@@ -107,9 +107,9 @@ int socket_receive(socket_t* self,
     bytes_recibidos = resultado_recv;
     buffer[bytes_recibidos] = '\0';
     socket_callback(buffer,callback_ctx);
-    if (bytes_recibidos == (size_t)length - 1){
+    /*if (bytes_recibidos == (size_t)length - 1){
       bytes_recibidos = 0;
-    }
+    }*/
   /*  if (resultado_recv == 0){
       termine = true;
     }*/
