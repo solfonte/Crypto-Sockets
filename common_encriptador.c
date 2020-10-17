@@ -6,7 +6,8 @@
 #define TAMANIO_VECTOR_S 256
 
 
-void encriptador_encriptar(encriptador_t* encriptador,char* buffer,size_t tamanio,int modo){
+void encriptador_encriptar(encriptador_t* encriptador,char* buffer
+                          ,size_t tamanio,int modo){
   if (strcmp(encriptador->metodo,"cesar") == 0){
     encriptador_cesar(buffer,tamanio,encriptador->key,modo);
   }else if (strcmp(encriptador->metodo,"vigenere") == 0){
