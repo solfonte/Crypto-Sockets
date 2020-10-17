@@ -51,8 +51,8 @@ int main(int argc, char const *argv[]) {
   cryptosocket_t cryptosocket;
   encriptador_t encriptador;
   //verificar retorno
-  datos_cliente_init(argv,host,puerto,metodo,key/*,archivo*/);
-  lector_de_texto_init(&lector/*,archivo*/);
+  datos_cliente_init(argv,host,puerto,metodo,key);
+  lector_de_texto_init(&lector);
   encriptador_init(&encriptador,metodo,(void*)key);
 
   //lector_de_texto_init(&lector,stdin);

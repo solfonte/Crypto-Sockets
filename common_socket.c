@@ -81,11 +81,16 @@ int socket_connect(socket_t *self, const char *host, const char *service){
 
 int socket_send(socket_t* self, const char* buffer, size_t length){
   size_t bytes_no_env = length;
+  bool hubo_un_error = false, termine = false;
   ssize_t bytes_env = 0;
-  while (bytes_no_env > 0 && bytes_env != ERROR){
+  while (!hubo_un_error && !termine/*bytes_no_env > 0 && bytes_env != ERROR*/){
     size_t tam_enviar = length - (size_t)bytes_env;
     bytes_env = send(self->fd,&buffer[bytes_env],tam_enviar,MSG_NOSIGNAL);
-    if (bytes_env != ERROR){
+    if (bytes_env == ERROR){
+      hubo_un_error = true;
+    }else if(bytes_env == 0){
+      termine = true;
+    }else{
       bytes_no_env = bytes_no_env - (size_t)bytes_env;
     }
   }
@@ -95,25 +100,15 @@ int socket_send(socket_t* self, const char* buffer, size_t length){
 int socket_receive(socket_t* self,
                   int (*socket_callback)(char* chunk,void* callback_ctx),
                   void*callback_ctx){
-  ssize_t bytes_recv = 0;
+  ssize_t bytes_recibidos = 0;
   bool termine = false;
   ssize_t resultado_recv = 0;
   char buffer[TAMANIO_RESPUESTA];
   size_t length = TAMANIO_RESPUESTA;
   while (!termine && resultado_recv!= ERROR){
-    size_t tam_recv = length - (size_t)bytes_recv - 1;
-    resultado_recv = recv(self->fd,buffer,tam_recv,0);
-    if (resultado_recv == 0){
-      termine = true;
-    }else if (resultado_recv != ERROR){
-      bytes_recv = resultado_recv;
-      buffer[bytes_recv] = '\0';
-      socket_callback(buffer,callback_ctx);
-    }
-}
-    /*
+
     size_t tam_recv = length - (size_t)bytes_recibidos - 1;
-    resultado_recv = recv(self->fd,buffer,tam_enviar,0);
+    resultado_recv = recv(self->fd,buffer,tam_recv,0);
     bytes_recibidos = resultado_recv;
     buffer[bytes_recibidos] = '\0';
     socket_callback(buffer,callback_ctx);
@@ -123,7 +118,7 @@ int socket_receive(socket_t* self,
     if (resultado_recv == 0){
       termine = true;
     }
-  }*/
+}
   printf("\n");
   return EXITO;
 }
