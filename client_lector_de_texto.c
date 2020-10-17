@@ -7,7 +7,7 @@ int lector_de_texto_init(lector_de_texto_t* lector){
 }
 
 void lector_de_texto_uninit(lector_de_texto_t* lector){
-		fclose(lector->file_pointer);
+		//fclose(lector->file_pointer);
 }
 
 int lector_de_texto_iterar(lector_de_texto_t* lector,
