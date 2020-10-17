@@ -76,26 +76,26 @@ static void ksa(unsigned char *key, size_t key_length,unsigned char* vector_s) {
     }
 }
 
-static unsigned char rc4_output(unsigned char* vector_s) {
-  unsigned int i = 0,j = 0;
+static unsigned char prga(unsigned char* vector_s,int* x,int* y) {
+    *x = (*x + 1) % TAMANIO_VECTOR_S;
+    *y = (*y + vector_s[*x]) % TAMANIO_VECTOR_S;
 
-    i = (i + 1) % TAMANIO_VECTOR_S;
-    j = (j + vector_s[i]) % TAMANIO_VECTOR_S;
+    swap(vector_s, *x, *y);
 
-    swap(vector_s, i, j);
-
-    return vector_s[(vector_s[i] + vector_s[j]) % TAMANIO_VECTOR_S];
+    return vector_s[(vector_s[*x] + vector_s[*y]) % TAMANIO_VECTOR_S];
 }
 
 int encriptador_rc4(char* cadena,size_t tamanio,void* key){
   int i = 0;
+  int x = 0;
+  int y = 0;
   char* key_aux = key;
   unsigned char vector_s[TAMANIO_VECTOR_S];
   unsigned char* cadena_aux = (unsigned char*)cadena;
   ksa((unsigned char*)key_aux,strlen(key_aux),vector_s);
   while (i < tamanio){
-    cadena_aux[i] = (unsigned char)(cadena_aux[i] ^ rc4_output(vector_s));
-  //  printf("|%x|",(int)*cadena_aux);
+    cadena_aux[i] = (unsigned char)(cadena_aux[i] ^ prga(vector_s,&x,&y));
+    //printf("|%x|",(int)cadena_aux[i]);
     i++;
   }
     return EXITO;
