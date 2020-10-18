@@ -20,6 +20,6 @@ int _cryptosocket_recibir_mensaje(char *buffer,
                                 size_t tamanio,void* callback_ctx){
   cryptosocket_t* cryptosocket = callback_ctx;
   encriptador_encriptar(cryptosocket->encriptador,buffer,tamanio,DESCIFRAR);
-  fwrite(buffer, 1, tamanio, stdout);
+  fwrite(buffer,1, tamanio, stdout);
   return EXITO;
 }

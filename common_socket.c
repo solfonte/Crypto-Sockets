@@ -105,7 +105,7 @@ int socket_receive(socket_t* self,
   char buffer[TAMANIO_RESPUESTA];
   size_t length = TAMANIO_RESPUESTA;
   while (!termine && !hubo_error){
-    size_t tam_recv = length - (size_t)bytes_recv - 1;
+    size_t tam_recv = length - (size_t)bytes_recv;
     ssize_t resultado_recv = recv(self->fd,&buffer[bytes_recv],tam_recv,0);
     bytes_recv = resultado_recv;
     if (resultado_recv == ERROR){
@@ -117,7 +117,7 @@ int socket_receive(socket_t* self,
       buffer[bytes_recv] = '\0';
       bytes_recv = 0;
     }
-}
+  }
   printf("\n");
   return EXITO;
 }

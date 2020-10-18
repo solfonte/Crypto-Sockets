@@ -40,22 +40,23 @@ int encriptador_cesar(char* cadena,size_t tamanio,void* key,int modo){
 
 int encriptador_vigenere(char* cadena,size_t tamanio,void* key,int modo){
   int i = 0;
+  int j = 0;
   unsigned char* cadena_aux = (unsigned char*)cadena;
   unsigned char* key_aux = key;
+
   while (i < tamanio){
     if (modo == CIFRAR){
-      cadena_aux[i] = (unsigned char)(cadena_aux[i] + *key_aux);
+      cadena_aux[i] = (unsigned char)(cadena_aux[i] + key_aux[j]);
     }else{
-      cadena_aux[i] = (unsigned char)(cadena_aux[i] - *key_aux);
+      cadena_aux[i] = (unsigned char)(cadena_aux[i] - key_aux[j]);
     }
     //printf("|%i|",(int)cadena_aux[i]);
-    key_aux++;
-    if (*key_aux == '\0'){
-      key_aux = (unsigned char*)key;
-    }
+    j++;
     i++;
+    if (key_aux[j] == '\0'){
+      j = 0;
+    }
   }
-  printf("\n");
   return EXITO;
 }
 
@@ -76,7 +77,7 @@ static void ksa(unsigned char *key, size_t key_length,unsigned char* vector_s) {
     }
 }
 
-static unsigned char prga(unsigned char* vector_s,int* x,int* y) {
+static unsigned char prga(unsigned char* vector_s,unsigned int* x,unsigned int* y) {
     *x = (*x + 1) % TAMANIO_VECTOR_S;
     *y = (*y + vector_s[*x]) % TAMANIO_VECTOR_S;
 
@@ -87,8 +88,8 @@ static unsigned char prga(unsigned char* vector_s,int* x,int* y) {
 
 int encriptador_rc4(char* cadena,size_t tamanio,void* key){
   int i = 0;
-  int x = 0;
-  int y = 0;
+  unsigned int x = 0;
+  unsigned int y = 0;
   char* key_aux = key;
   unsigned char vector_s[TAMANIO_VECTOR_S];
   unsigned char* cadena_aux = (unsigned char*)cadena;

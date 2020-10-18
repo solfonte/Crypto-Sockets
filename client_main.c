@@ -18,20 +18,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <stdbool.h>//sacar despues
+#include <stdbool.h>
 
 
 int datos_cliente_init(char const* datos[],char* host,
                       char* puerto,char* metodo,char* key){
-  //hacer chequeoss
   strncpy(host,datos[POSICION_HOST],TAMANIO_HOST);
   strncpy(puerto,datos[POSICION_PUERTO],TAMANIO_PUERTO);
   strncpy(metodo,datos[POSICION_METODO] + 9,TAMANIO_METODO);
   strncpy(key,datos[POSICION_KEY] + 6,TAMANIO_KEY);
   return EXITO;
 }
-
-//./client 127.0.0.1 8080 --method=rc4 --key=queso < __client_stdin__
 
 int main(int argc, char const *argv[]) {
   if (argc != CANTIDAD_ARG){
@@ -48,7 +45,7 @@ int main(int argc, char const *argv[]) {
   //verificar retorno
   datos_cliente_init(argv,host,puerto,metodo,key);
   lector_de_texto_init(&lector);
-  encriptador_init(&encriptador,metodo,(void*)key);
+  encriptador_init(&encriptador,metodo,key);
 
   //lector_de_texto_init(&lector,stdin);
   if (socket_connect(&client,host,puerto) == ERROR){
