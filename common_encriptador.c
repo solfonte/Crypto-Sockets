@@ -77,7 +77,8 @@ static void ksa(unsigned char *key, size_t key_length,unsigned char* vector_s) {
     }
 }
 
-static unsigned char prga(unsigned char* vector_s,unsigned int* x,unsigned int* y) {
+static unsigned char prga(unsigned char* vector_s,
+                          unsigned int* x,unsigned int* y) {
     *x = (*x + 1) % TAMANIO_VECTOR_S;
     *y = (*y + vector_s[*x]) % TAMANIO_VECTOR_S;
 
