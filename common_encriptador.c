@@ -50,7 +50,6 @@ int encriptador_vigenere(char* cadena,size_t tamanio,void* key,int modo){
     }else{
       cadena_aux[i] = (unsigned char)(cadena_aux[i] - key_aux[j]);
     }
-    //printf("|%i|",(int)cadena_aux[i]);
     j++;
     i++;
     if (key_aux[j] == '\0'){
@@ -97,7 +96,6 @@ int encriptador_rc4(char* cadena,size_t tamanio,void* key){
   ksa((unsigned char*)key_aux,strlen(key_aux),vector_s);
   while (i < tamanio){
     cadena_aux[i] = (unsigned char)(cadena_aux[i] ^ prga(vector_s,&x,&y));
-    //printf("|%x|",(int)cadena_aux[i]);
     i++;
   }
     return EXITO;
