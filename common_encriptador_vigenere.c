@@ -27,5 +27,6 @@ int encriptador_vigenere(encriptador_vigenere_t* encriptador,
       key_aux = encriptador->key;
     }
   }
+  encriptador->key_donde_me_quede = ((unsigned char*)encriptador->key + j);
   return EXITO;
 }
