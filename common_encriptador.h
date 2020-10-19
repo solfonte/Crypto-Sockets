@@ -16,7 +16,6 @@
 typedef struct {
   void* encriptador_particular;
   char* metodo;
-
 }encriptador_t;
 
 void encriptador_encriptar(encriptador_t* encriptador,
