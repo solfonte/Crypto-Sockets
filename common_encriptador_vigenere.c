@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 int encriptador_vigenere_init(encriptador_vigenere_t* encriptador,void*key){
-  printf("key:%s",(char*)key);
   encriptador->key = key;
   encriptador->key_donde_me_quede = key;
   return EXITO;
@@ -27,6 +26,6 @@ int encriptador_vigenere(encriptador_vigenere_t* encriptador,
       key_aux = encriptador->key;
     }
   }
-  encriptador->key_donde_me_quede = ((unsigned char*)encriptador->key + j);
+  encriptador->key_donde_me_quede = &key_aux[j];
   return EXITO;
 }
