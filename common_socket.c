@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "common_socket.h"
-#define TAMANIO_RESPUESTA 20
+#define TAMANIO_RESPUESTA 400
 //capaz sacar TAMANIO_RESPUESTA
 
 static void hints_innit(struct addrinfo* hints,
@@ -67,16 +67,17 @@ int socket_connect(socket_t *self, const char *host, const char *service){
     return ERROR;
   }
   ptr = resultados;
+  int res_connect = 0;
   while (ptr != NULL && !conecte){
     int res_skt = socket_init(self,ptr);
     if (res_skt != ERROR){
-      int res_connect = connect(self->fd,ptr->ai_addr,ptr->ai_addrlen);
+      res_connect = connect(self->fd,ptr->ai_addr,ptr->ai_addrlen);
       conecte = (res_connect != ERROR?true:false);
     }
     ptr = ptr->ai_next;
   }
   freeaddrinfo(resultados);
-  return (self->fd < 0? ERROR:EXITO);
+  return res_connect;
 }
 
 int socket_send(socket_t* self, const char* buffer, size_t length){

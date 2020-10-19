@@ -39,10 +39,25 @@ int main(int argc, char const *argv[]) {
   int resultado;
   encriptador_t encriptador;
   cryptosocket_t cryptosocket;
+  encriptador_cesar_t cesar;
+  encriptador_vigenere_t vigenere;
+  encriptador_rc4_t rc4;
 
-  //verificar devolucion
   datos_servidor_init(argv,puerto,metodo,key);
-  encriptador_init(&encriptador,metodo,key);
+
+  if (strcmp(metodo,"cesar") == 0){
+    encriptador_cesar_init(&cesar,key);
+    encriptador_init(&encriptador,(void*)&cesar,metodo,key);
+  }else if (strcmp(metodo,"vigenere") == 0){
+    encriptador_vigenere_init(&vigenere,key);
+    encriptador_init(&encriptador,(void*)&vigenere,metodo,key);
+  }else if (strcmp(metodo,"rc4") == 0){
+    encriptador_rc4_init(&rc4,key);
+    encriptador_init(&encriptador,(void*)&rc4,metodo,key);
+  }else{
+    printf("no existe el metodo introducido\n");
+    return 0;
+  }
 
   resultado = socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto);
   if (resultado == ERROR){
@@ -56,7 +71,6 @@ int main(int argc, char const *argv[]) {
     return 0;
   }
   cryptosocket_init(&cryptosocket,&peer,&encriptador);
-  //socket_receive(&peer,buffer,TAMANIO_RESPUESTA);
   socket_receive(&peer,_cryptosocket_recibir_mensaje,&cryptosocket);
 
   socket_uninit(&peer,SHUT_RD);

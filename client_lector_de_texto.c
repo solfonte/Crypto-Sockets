@@ -1,4 +1,5 @@
 #include "client_lector_de_texto.h"
+
 #define TAMANIO_MENSAJE 64
 
 int lector_de_texto_init(lector_de_texto_t* lector){
