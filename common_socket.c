@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "common_socket.h"
-#define TAMANIO_RESPUESTA 64
+#define TAMANIO_RESPUESTA 20
 //capaz sacar TAMANIO_RESPUESTA
 
 static void hints_innit(struct addrinfo* hints,
@@ -106,7 +106,7 @@ int socket_receive(socket_t* self,
   size_t length = TAMANIO_RESPUESTA;
   while (!termine && !hubo_error){
     size_t tam_recv = length - (size_t)bytes_recv;
-    ssize_t resultado_recv = recv(self->fd,&buffer[bytes_recv],tam_recv,0);
+    ssize_t resultado_recv = recv(self->fd,buffer,tam_recv,0);
     bytes_recv = resultado_recv;
     if (resultado_recv == ERROR){
       hubo_error = true;
@@ -114,10 +114,9 @@ int socket_receive(socket_t* self,
       termine = true;
     }else{
       socket_callback(buffer,(size_t)bytes_recv,callback_ctx);
-      buffer[bytes_recv] = '\0';
       bytes_recv = 0;
     }
   }
-  //printf("\n");
+  printf("\n");//ver tema del end of file
   return EXITO;
 }

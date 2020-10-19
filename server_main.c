@@ -42,7 +42,7 @@ int main(int argc, char const *argv[]) {
 
   //verificar devolucion
   datos_servidor_init(argv,puerto,metodo,key);
-  encriptador_init(&encriptador,metodo,(void*)key);
+  encriptador_init(&encriptador,metodo,key);
 
   resultado = socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto);
   if (resultado == ERROR){

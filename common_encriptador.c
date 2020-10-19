@@ -9,24 +9,25 @@
 void encriptador_encriptar(encriptador_t* encriptador,char* buffer
                           ,size_t tamanio,int modo){
   if (strcmp(encriptador->metodo,"cesar") == 0){
-    encriptador_cesar(buffer,tamanio,encriptador->key,modo);
+    encriptador_cesar(encriptador,buffer,tamanio,modo);
   }else if (strcmp(encriptador->metodo,"vigenere") == 0){
-    encriptador_vigenere(buffer,tamanio,encriptador->key,modo);
+    encriptador_vigenere(encriptador,buffer,tamanio,modo);
   }else if (strcmp(encriptador->metodo,"rc4") == 0){
-    encriptador_rc4(buffer,tamanio,encriptador->key);
+    encriptador_rc4(encriptador,buffer,tamanio);
   }
 }
 
 int encriptador_init(encriptador_t* encriptador,char* metodo,void*key){
   encriptador->metodo = metodo;
   encriptador->key = key;
+  encriptador->key_donde_me_quede = key;
   return EXITO;
 }
 
-int encriptador_cesar(char* cadena,size_t tamanio,void* key,int modo){
+int encriptador_cesar(encriptador_t* encriptador,char* cadena,size_t tamanio,int modo){
   int i = 0;
   unsigned char* cadena_aux = (unsigned char*)cadena;
-  int key_aux = atoi((char*)key);
+  int key_aux = atoi((char*)encriptador->key);
   while (i < tamanio){
     if (modo == CIFRAR){
       cadena_aux[i] = (unsigned char)(cadena_aux[i] + key_aux);
@@ -38,12 +39,11 @@ int encriptador_cesar(char* cadena,size_t tamanio,void* key,int modo){
   return EXITO;
 }
 
-int encriptador_vigenere(char* cadena,size_t tamanio,void* key,int modo){
+int encriptador_vigenere(encriptador_t* encriptador,char* cadena,size_t tamanio,int modo){
   int i = 0;
   int j = 0;
   unsigned char* cadena_aux = (unsigned char*)cadena;
-  unsigned char* key_aux = key;
-
+  unsigned char* key_aux = encriptador->key_donde_me_quede;
   while (i < tamanio){
     if (modo == CIFRAR){
       cadena_aux[i] = (unsigned char)(cadena_aux[i] + key_aux[j]);
@@ -54,8 +54,10 @@ int encriptador_vigenere(char* cadena,size_t tamanio,void* key,int modo){
     i++;
     if (key_aux[j] == '\0'){
       j = 0;
+      key_aux = encriptador->key;
     }
   }
+  encriptador->key_donde_me_quede = ((unsigned char*)encriptador->key + j);
   return EXITO;
 }
 
@@ -86,11 +88,12 @@ static unsigned char prga(unsigned char* vector_s,
     return vector_s[(vector_s[*x] + vector_s[*y]) % TAMANIO_VECTOR_S];
 }
 
-int encriptador_rc4(char* cadena,size_t tamanio,void* key){
+int encriptador_rc4(encriptador_t* encriptador,char* cadena,size_t tamanio){
   int i = 0;
   unsigned int x = 0;
   unsigned int y = 0;
-  char* key_aux = key;
+  //char* key_original = encriptador->key;
+  char* key_aux = encriptador->key_donde_me_quede;
   unsigned char vector_s[TAMANIO_VECTOR_S];
   unsigned char* cadena_aux = (unsigned char*)cadena;
   ksa((unsigned char*)key_aux,strlen(key_aux),vector_s);
