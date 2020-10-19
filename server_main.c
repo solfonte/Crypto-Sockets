@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <stdbool.h>//sacar despues
 #include "common_cryptosocket.h"
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -25,7 +24,6 @@ int datos_servidor_init(char const *datos[],char* puerto,
   strncpy(puerto,datos[POSICION_PUERTO],TAMANIO_PUERTO);
   strncpy(metodo,datos[POSICION_METODO] + 9,TAMANIO_METODO);
   strncpy(key,datos[POSICION_KEY] + 6,TAMANIO_KEY);
-  //ver que onda por el largo y chequear estso errores
   return EXITO;
 }
 
@@ -39,20 +37,20 @@ int main(int argc, char const *argv[]) {
   int resultado;
   encriptador_t encriptador;
   cryptosocket_t cryptosocket;
-  encriptador_cesar_t cesar;
-  encriptador_vigenere_t vigenere;
-  encriptador_rc4_t rc4;
+  cesar_t cesar;
+  vigenere_t vigenere;
+  rc4_t rc4;
 
   datos_servidor_init(argv,puerto,metodo,key);
 
   if (strcmp(metodo,"cesar") == 0){
-    encriptador_cesar_init(&cesar,key);
+    cesar_init(&cesar,key);
     encriptador_init(&encriptador,(void*)&cesar,metodo,key);
   }else if (strcmp(metodo,"vigenere") == 0){
-    encriptador_vigenere_init(&vigenere,key);
+    vigenere_init(&vigenere,key);
     encriptador_init(&encriptador,(void*)&vigenere,metodo,key);
   }else if (strcmp(metodo,"rc4") == 0){
-    encriptador_rc4_init(&rc4,key);
+    rc4_init(&rc4,key);
     encriptador_init(&encriptador,(void*)&rc4,metodo,key);
   }else{
     printf("no existe el metodo introducido\n");

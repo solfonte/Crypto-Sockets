@@ -1,13 +1,13 @@
 #include "common_encriptador_vigenere.h"
 #include <stdio.h>
 
-int encriptador_vigenere_init(encriptador_vigenere_t* encriptador,void*key){
+int vigenere_init(vigenere_t* encriptador,void*key){
   encriptador->key = key;
   encriptador->key_donde_me_quede = key;
   return EXITO;
 }
 
-int encriptador_vigenere(encriptador_vigenere_t* encriptador,
+int vigenere_encriptar(vigenere_t* encriptador,
                         char* cadena,size_t tamanio,int modo){
   int i = 0;
   int j = 0;

@@ -9,14 +9,14 @@
 void encriptador_encriptar(encriptador_t* encriptador,char* buffer
                           ,size_t tamanio,int modo){
   void* metodo_particular = encriptador->encriptador_particular;
-  if (strcmp(encriptador->metodo,"cesar") == 0){
-    encriptador_cesar((encriptador_cesar_t*)metodo_particular,buffer,
+  if (strcmp(encriptador->metodo,CESAR) == 0){
+    cesar_encriptar((cesar_t*)metodo_particular,buffer,
                       tamanio,modo);
-  }else if (strcmp(encriptador->metodo,"vigenere") == 0){
-    encriptador_vigenere((encriptador_vigenere_t*)metodo_particular,
+  }else if (strcmp(encriptador->metodo,VIGENERE) == 0){
+    vigenere_encriptar((vigenere_t*)metodo_particular,
                           buffer,tamanio,modo);
-  }else if (strcmp(encriptador->metodo,"rc4") == 0){
-    encriptador_rc4((encriptador_rc4_t*)metodo_particular,buffer,tamanio);
+  }else if (strcmp(encriptador->metodo,VIGENERE) == 0){
+    rc4_encriptar((rc4_t*)metodo_particular,buffer,tamanio);
   }
 }
 int encriptador_init(encriptador_t* encriptador,void* encriptador_metodo,
