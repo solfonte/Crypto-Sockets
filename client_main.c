@@ -64,7 +64,6 @@ int main(int argc, char const *argv[]) {
 
 
   lector_de_texto_init(&lector);
-  //encriptador_init(&encriptador,metodo_de_encriptacion,metodo,key);
 
   int res_connect = socket_connect(&client,host,puerto);
   if (res_connect == -1){

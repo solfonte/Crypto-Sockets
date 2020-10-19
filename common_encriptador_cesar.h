@@ -14,5 +14,6 @@ typedef struct {
 }encriptador_cesar_t;
 
 int encriptador_cesar_init(encriptador_cesar_t* encriptador,void*key);
-int encriptador_cesar(encriptador_cesar_t* encriptador,char* cadena,size_t tamanio,int modo);
+int encriptador_cesar(encriptador_cesar_t* encriptador,char* cadena,
+                      size_t tamanio,int modo);
 #endif

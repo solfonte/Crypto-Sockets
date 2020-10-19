@@ -8,7 +8,8 @@ int encriptador_vigenere_init(encriptador_vigenere_t* encriptador,void*key){
   return EXITO;
 }
 
-int encriptador_vigenere(encriptador_vigenere_t* encriptador,char* cadena,size_t tamanio,int modo){
+int encriptador_vigenere(encriptador_vigenere_t* encriptador,
+                        char* cadena,size_t tamanio,int modo){
   int i = 0;
   int j = 0;
   unsigned char* cadena_aux = (unsigned char*)cadena;

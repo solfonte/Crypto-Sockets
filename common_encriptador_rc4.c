@@ -36,7 +36,8 @@ int encriptador_rc4(encriptador_rc4_t* encriptador,char* cadena,size_t tamanio){
   unsigned char* cadena_aux = (unsigned char*)cadena;
   //ksa((unsigned char*)key_aux,strlen(key_aux),vector_s);
   while (i < tamanio){
-    cadena_aux[i] = (unsigned char)(cadena_aux[i] ^ prga(encriptador->vector_s,&(encriptador->x),&(encriptador->y)));
+    cadena_aux[i] = (unsigned char)(cadena_aux[i] ^ prga(encriptador->vector_s,
+                    &(encriptador->x),&(encriptador->y)));
     i++;
   }
     return EXITO;
