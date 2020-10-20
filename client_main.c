@@ -20,8 +20,8 @@
 #include <errno.h>
 #include <stdbool.h>
 
-void datos_cliente_uninit(char const* datos[],char* host,
-                      char* puerto,char* metodo,char* key){
+void datos_cliente_uninit(char* host,char* puerto,
+                          char* metodo,char* key){
 
 }
 
