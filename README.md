@@ -20,4 +20,4 @@ El servidor recibe la clave y el metodo a utilizar. Mediante la conexion entre l
 -se mantuvo el menor acoplamiento posible entre los TDA socket,cryptosocket y los distintos encriptadores.  
 -para el caso del servidor, como la funcion getaddrinfo solo devuelve un resultado posible para finalizar la conexion, no fue necesario iterar sobre cada resultado.  
 **Diagrama de clases general**  
-![Alt Text](ClasesTP1.png)
+![Alt Text](clasesTP1.png)
