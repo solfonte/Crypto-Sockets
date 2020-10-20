@@ -23,3 +23,7 @@ int _cryptosocket_recibir_mensaje(char *buffer,
   fwrite(buffer,1, tamanio, stdout);
   return EXITO;
 }
+
+int cryptosocket_uninit(cryptosocket_t* cryptosocket){
+  return 0;
+}

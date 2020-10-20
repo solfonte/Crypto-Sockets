@@ -20,7 +20,13 @@
 #include <errno.h>
 #include <stdbool.h>
 
+/*la funcion desinicializa los datos recibidos por parametro*/
+int datos_cliente_uninit(char* host,char* puerto,
+                      char* metodo,char* key){
+  return EXITO;
+}
 
+/*la funcion inicializa los datos recibidos por parametro*/
 int datos_cliente_init(char const* datos[],char* host,
                       char* puerto,char* metodo,char* key){
   strncpy(host,datos[POSICION_HOST],TAMANIO_HOST);
@@ -61,9 +67,10 @@ int main(int argc, char const *argv[]) {
   if (res_iterar == ERROR){
     printf("No se pudo enviar el mensaje correctamente\n");
   }
-  //cryptosocket_uninit(&cryptosocket,&client,&encriptador);
+  cryptosocket_uninit(&cryptosocket);
   socket_uninit(&client,SHUT_WR);
   lector_de_texto_uninit(&lector);
-  //encriptador_uninit(&encriptador,&cesar,&vigenere,&rc4);
+  encriptador_uninit(&encriptador,&cesar,&vigenere,&rc4);
+  datos_cliente_uninit(host,puerto,metodo,key);
   return 0;
 }

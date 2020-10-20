@@ -15,7 +15,14 @@
 #include <string.h>
 #include "common_cryptosocket.h"
 
+/*la funcion desinicializa los datos recibidos
+ por parametro*/
+int datos_servidor_uninit(char* puerto,
+                        char* metodo,char* key)){
+  return 0;
+}
 
+/*la funcion inicializa los datos recibidos por parametro*/
 int datos_servidor_init(char const *datos[],char* puerto,
                         char* metodo,char* key){
   strncpy(puerto,datos[POSICION_PUERTO],TAMANIO_PUERTO);
@@ -57,8 +64,10 @@ int main(int argc, char const *argv[]) {
   }
   cryptosocket_init(&cryptosocket,&peer,&encriptador);
   socket_receive(&peer,_cryptosocket_recibir_mensaje,&cryptosocket);
-
+  cryptosocket_uninit(&cryptosocket);
   socket_uninit(&peer,SHUT_RD);
   socket_uninit(&socket_aceptador,SHUT_RD);
+  encriptador_uninit(&encriptador,&cesar,&vigenere,&rc4);
+  datos_servidor_uninit(puerto,metodo,key);
   return 0;
 }

@@ -39,3 +39,8 @@ int encriptador_init(encriptador_t* encriptador,encriptador_cesar_t* cesar,
   encriptador->metodo = metodo;
   return resultado;
 }
+
+int encriptador_uninit(encriptador_t* encriptador,encriptador_cesar_t* cesar,
+                      encriptador_vigenere_t* vigenere,encriptador_rc4_t* rc4){
+  return EXITO;
+}
