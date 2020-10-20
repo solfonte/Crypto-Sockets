@@ -17,8 +17,13 @@ typedef struct {
   char* metodo;
 }encriptador_t;
 
+/*el procedimiento encripta la cadena recibida por parametros segun el
+modo recibido por parametro*/
 void encriptador_encriptar(encriptador_t* encriptador,
                           char* buffer,size_t tamanio,int modo);
+
+/*la funcion inicializa la estructura encriptador_t
+segun el metodo a utilizar*/
 int encriptador_init(encriptador_t* encriptador,encriptador_cesar_t* cesar,
                     encriptador_vigenere_t* vigenere,encriptador_rc4_t* rc4,
                     char* metodo,void*key);

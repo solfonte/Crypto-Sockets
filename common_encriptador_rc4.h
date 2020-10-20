@@ -16,6 +16,8 @@ typedef struct {
   unsigned char vector_s[TAMANIO_VECTOR_S];
 }encriptador_rc4_t;
 
+/*la funncion inicializa la estructura de rc4*/
 int encriptador_rc4_init(encriptador_rc4_t* encriptador,void*key);
+/*la funcion encripta mediante el metodo rc4 la cadena recibida por parametro*/
 int encriptador_rc4(encriptador_rc4_t* encriptador,char* cadena,size_t tamanio);
 #endif

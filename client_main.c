@@ -47,7 +47,6 @@ int main(int argc, char const *argv[]) {
   encriptador_rc4_t rc4;
 
   datos_cliente_init(argv,host,puerto,metodo,key);
-
   encriptador_init(&encriptador,&cesar,&vigenere,&rc4,metodo,key);
   lector_de_texto_init(&lector);
   int res_connect = socket_connect(&client,host,puerto);
@@ -62,8 +61,9 @@ int main(int argc, char const *argv[]) {
   if (res_iterar == ERROR){
     printf("No se pudo enviar el mensaje correctamente\n");
   }
+  //cryptosocket_uninit(&cryptosocket,&client,&encriptador);
   socket_uninit(&client,SHUT_WR);
   lector_de_texto_uninit(&lector);
-
+  //encriptador_uninit(&encriptador,&cesar,&vigenere,&rc4);
   return 0;
 }

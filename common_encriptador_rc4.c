@@ -1,13 +1,15 @@
 #include "common_encriptador_rc4.h"
 #include <string.h>
 
-
-static void swap(unsigned char *s, unsigned int i, unsigned int j) {
-    unsigned char temp = s[i];
-    s[i] = s[j];
-    s[j] = temp;
+/*el procedimiento realiza un swap entre dos posiciones
+ del stream recibido por parametro*/
+static void swap(unsigned char *stream, unsigned int i, unsigned int j) {
+    unsigned char temp = stream[i];
+    stream[i] = stream[j];
+    stream[j] = temp;
 }
-
+/*el procedimiento realiza la operacion KSA del
+metodo rc4*/
 static void ksa(unsigned char *key, size_t key_length,unsigned char* vector_s) {
     unsigned int i,j;
     for (i = 0; i < TAMANIO_VECTOR_S; i++)
@@ -19,6 +21,8 @@ static void ksa(unsigned char *key, size_t key_length,unsigned char* vector_s) {
     }
 }
 
+/*la funcion realiza la operacion PRGA del
+metodo rc4*/
 static unsigned char prga(unsigned char* vector_s,
                           unsigned int* x,unsigned int* y) {
     *x = (*x + 1) % TAMANIO_VECTOR_S;

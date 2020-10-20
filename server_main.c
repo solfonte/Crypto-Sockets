@@ -13,12 +13,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <errno.h>
-#include <stdbool.h>
 #include "common_cryptosocket.h"
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
+
 
 int datos_servidor_init(char const *datos[],char* puerto,
                         char* metodo,char* key){
