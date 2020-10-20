@@ -20,6 +20,10 @@
 #include <errno.h>
 #include <stdbool.h>
 
+void datos_cliente_uninit(char const* datos[],char* host,
+                      char* puerto,char* metodo,char* key){
+
+}
 
 int datos_cliente_init(char const* datos[],char* host,
                       char* puerto,char* metodo,char* key){
@@ -47,22 +51,12 @@ int main(int argc, char const *argv[]) {
   rc4_t rc4;
 
   datos_cliente_init(argv,host,puerto,metodo,key);
-
-  if (strcmp(metodo,CESAR) == 0){
-    cesar_init(&cesar,key);
-    encriptador_init(&encriptador,(void*)&cesar,metodo,key);
-  }else if (strcmp(metodo,VIGENERE) == 0){
-    vigenere_init(&vigenere,key);
-    encriptador_init(&encriptador,(void*)&vigenere,metodo,key);
-  }else if (strcmp(metodo,RC4) == 0){
-    rc4_init(&rc4,key);
-    encriptador_init(&encriptador,(void*)&rc4,metodo,key);
-  }else{
-    printf("no existe el metodo introducido\n");
+  int res_init = encriptador_init(&encriptador,&cesar,&vigenere,&rc4,metodo,key);
+  if(res_init == ERROR){
+    datos_cliente_uninit(host,puerto,metodo,key);
     return 0;
   }
   lector_de_texto_init(&lector);
-
   int res_connect = socket_connect(&client,host,puerto);
   if (res_connect == -1){
     printf("No pudo conectarse al servidor. Error: %s\n",strerror(errno));
