@@ -12,9 +12,9 @@
 typedef struct {
   void* key;
   void* key_donde_me_quede;
-}vigenere_t;
+}encriptador_vigenere_t;
 
-int vigenere_init(vigenere_t* encriptador,void*key);
-int vigenere_encriptar(vigenere_t* encriptador,
+int encriptador_vigenere_init(encriptador_vigenere_t* encriptador,void*key);
+int encriptador_vigenere(encriptador_vigenere_t* encriptador,
                         char* cadena,size_t tamanio,int modo);
 #endif

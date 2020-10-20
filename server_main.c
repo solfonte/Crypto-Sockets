@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <stdbool.h>//sacar despues
 #include "common_cryptosocket.h"
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -37,20 +38,20 @@ int main(int argc, char const *argv[]) {
   int resultado;
   encriptador_t encriptador;
   cryptosocket_t cryptosocket;
-  cesar_t cesar;
-  vigenere_t vigenere;
-  rc4_t rc4;
+  encriptador_cesar_t cesar;
+  encriptador_vigenere_t vigenere;
+  encriptador_rc4_t rc4;
 
   datos_servidor_init(argv,puerto,metodo,key);
 
   if (strcmp(metodo,"cesar") == 0){
-    cesar_init(&cesar,key);
+    encriptador_cesar_init(&cesar,key);
     encriptador_init(&encriptador,(void*)&cesar,metodo,key);
   }else if (strcmp(metodo,"vigenere") == 0){
-    vigenere_init(&vigenere,key);
+    encriptador_vigenere_init(&vigenere,key);
     encriptador_init(&encriptador,(void*)&vigenere,metodo,key);
   }else if (strcmp(metodo,"rc4") == 0){
-    rc4_init(&rc4,key);
+    encriptador_rc4_init(&rc4,key);
     encriptador_init(&encriptador,(void*)&rc4,metodo,key);
   }else{
     printf("no existe el metodo introducido\n");

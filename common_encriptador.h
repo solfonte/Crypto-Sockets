@@ -4,16 +4,13 @@
 #define EXITO 0
 #define DESCIFRAR 2
 #define CIFRAR 3
-#define CESAR "cesar"
-#define VIGENERE "vigenere"
-#define RC4 "rc4"
+
 #include <stddef.h>
 #include <stdint.h>
 #include <unistd.h>
 #include "common_encriptador_cesar.h"
 #include "common_encriptador_vigenere.h"
 #include "common_encriptador_rc4.h"
-
 
 typedef struct {
   void* encriptador_particular;

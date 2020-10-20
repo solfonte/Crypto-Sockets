@@ -41,7 +41,7 @@ int socket_bind_and_listen(socket_t* self,
     socket_uninit(self,SHUT_RD);
     return ERROR;
   }
-  int resultado_listen = listen(self->fd, 10/**/);
+  int resultado_listen = listen(self->fd, 10);
   return resultado_listen;
 }
 
@@ -115,6 +115,6 @@ int socket_receive(socket_t* self,
       bytes_recv = 0;
     }
   }
-  printf("\n");//ver tema del end of file
+  printf("\n");
   return EXITO;
 }

@@ -42,20 +42,20 @@ int main(int argc, char const *argv[]) {
   lector_de_texto_t lector;
   cryptosocket_t cryptosocket;
   encriptador_t encriptador;
-  cesar_t cesar;
-  vigenere_t vigenere;
-  rc4_t rc4;
+  encriptador_cesar_t cesar;
+  encriptador_vigenere_t vigenere;
+  encriptador_rc4_t rc4;
 
   datos_cliente_init(argv,host,puerto,metodo,key);
 
-  if (strcmp(metodo,CESAR) == 0){
-    cesar_init(&cesar,key);
+  if (strcmp(metodo,"cesar") == 0){
+    encriptador_cesar_init(&cesar,key);
     encriptador_init(&encriptador,(void*)&cesar,metodo,key);
-  }else if (strcmp(metodo,VIGENERE) == 0){
-    vigenere_init(&vigenere,key);
+  }else if (strcmp(metodo,"vigenere") == 0){
+    encriptador_vigenere_init(&vigenere,key);
     encriptador_init(&encriptador,(void*)&vigenere,metodo,key);
-  }else if (strcmp(metodo,RC4) == 0){
-    rc4_init(&rc4,key);
+  }else if (strcmp(metodo,"rc4") == 0){
+    encriptador_rc4_init(&rc4,key);
     encriptador_init(&encriptador,(void*)&rc4,metodo,key);
   }else{
     printf("no existe el metodo introducido\n");
