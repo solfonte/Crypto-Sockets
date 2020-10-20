@@ -43,23 +43,10 @@ int main(int argc, char const *argv[]) {
   encriptador_rc4_t rc4;
 
   datos_servidor_init(argv,puerto,metodo,key);
-  encriptador_init(&encriptador,&cesar,&vigenere,&rc4,metodo,key);
-
-/*
-  if (strcmp(metodo,"cesar") == 0){
-    encriptador_cesar_init(&cesar,key);
-    encriptador_init(&encriptador,(void*)&cesar,metodo,key);
-  }else if (strcmp(metodo,"vigenere") == 0){
-    encriptador_vigenere_init(&vigenere,key);
-    encriptador_init(&encriptador,(void*)&vigenere,metodo,key);
-  }else if (strcmp(metodo,"rc4") == 0){
-    encriptador_rc4_init(&rc4,key);
-    encriptador_init(&encriptador,(void*)&rc4,metodo,key);
-  }else{
-    printf("no existe el metodo introducido\n");
+  int res_init = encriptador_init(&encriptador,&cesar,&vigenere,&rc4,metodo,key);
+  if (res_init == ERROR){
     return 0;
   }
-*/
   resultado = socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto);
   if (resultado == ERROR){
     printf("No se pudo crear el servidor\n");
