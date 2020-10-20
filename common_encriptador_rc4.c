@@ -33,7 +33,7 @@ static unsigned char prga(unsigned char* vector_s,
     return vector_s[(vector_s[*x] + vector_s[*y]) % TAMANIO_VECTOR_S];
 }
 
-int encriptador_rc4(encriptador_rc4_t* encriptador,char* cadena,size_t tamanio){
+int rc4_encriptar(rc4_t* encriptador,char* cadena,size_t tamanio){
   int i = 0;
   unsigned char* cadena_aux = (unsigned char*)cadena;
   while (i < tamanio){
@@ -44,7 +44,7 @@ int encriptador_rc4(encriptador_rc4_t* encriptador,char* cadena,size_t tamanio){
     return EXITO;
 }
 
-int encriptador_rc4_init(encriptador_rc4_t* encriptador,void*key){
+int rc4_init(rc4_t* encriptador,void*key){
   ksa((unsigned char*)key,strlen((char*)key),encriptador->vector_s);
   encriptador->x = 0;
   encriptador->y = 0;

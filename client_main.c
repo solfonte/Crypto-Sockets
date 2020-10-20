@@ -48,9 +48,9 @@ int main(int argc, char const *argv[]) {
   lector_de_texto_t lector;
   cryptosocket_t cryptosocket;
   encriptador_t encriptador;
-  encriptador_cesar_t cesar;
-  encriptador_vigenere_t vigenere;
-  encriptador_rc4_t rc4;
+  cesar_t cesar;
+  vigenere_t vigenere;
+  rc4_t rc4;
 
   datos_cliente_init(argv,host,puerto,metodo,key);
   encriptador_init(&encriptador,&cesar,&vigenere,&rc4,metodo,key);

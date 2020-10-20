@@ -41,9 +41,9 @@ int main(int argc, char const *argv[]) {
   int resultado;
   encriptador_t encriptador;
   cryptosocket_t cryptosocket;
-  encriptador_cesar_t cesar;
-  encriptador_vigenere_t vigenere;
-  encriptador_rc4_t rc4;
+  cesar_t cesar;
+  vigenere_t vigenere;
+  rc4_t rc4;
 
   datos_servidor_init(argv,puerto,metodo,key);
   int res_init = encriptador_init(&encriptador,&cesar,

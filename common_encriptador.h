@@ -24,12 +24,12 @@ void encriptador_encriptar(encriptador_t* encriptador,
 
 /*la funcion inicializa la estructura encriptador_t
 segun el metodo a utilizar*/
-int encriptador_init(encriptador_t* encriptador,encriptador_cesar_t* cesar,
-                    encriptador_vigenere_t* vigenere,encriptador_rc4_t* rc4,
+int encriptador_init(encriptador_t* encriptador,cesar_t* cesar,
+                    vigenere_t* vigenere,rc4_t* rc4,
                     char* metodo,void*key);
 
 /*la funcion desinicializa la estructura de encriptador
 recibida por parametro*/
-int encriptador_uninit(encriptador_t* encriptador,encriptador_cesar_t* cesar,
-                      encriptador_vigenere_t* vigenere,encriptador_rc4_t* rc4);
+int encriptador_uninit(encriptador_t* encriptador,cesar_t* cesar,
+                      vigenere_t* vigenere,rc4_t* rc4);
 #endif
