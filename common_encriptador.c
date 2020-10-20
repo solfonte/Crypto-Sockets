@@ -6,6 +6,7 @@
 #define TAMANIO_VECTOR_S 256
 
 
+
 void encriptador_encriptar(encriptador_t* encriptador,char* buffer
                           ,size_t tamanio,int modo){
   void* metodo_particular = encriptador->encriptador_particular;
@@ -19,9 +20,23 @@ void encriptador_encriptar(encriptador_t* encriptador,char* buffer
     rc4_encriptar((rc4_t*)metodo_particular,buffer,tamanio);
   }
 }
-int encriptador_init(encriptador_t* encriptador,void* encriptador_metodo,
+int encriptador_init(encriptador_t* encriptador,
+                    cesar_t* cesar,vigenere_t* vigenere,rc4_t* rc4,
                     char* metodo,void*key){
+  int resultado = EXITO;
+  if (strcmp(metodo,CESAR) == 0){
+    cesar_init(cesar,key);
+    encriptador-> encriptador_particular = cesar;
+  }else if (strcmp(metodo,VIGENERE) == 0){
+    vigenere_init(vigenere,key);
+    encriptador-> encriptador_particular = vigenere;
+  }else if (strcmp(metodo,RC4) == 0){
+    rc4_init(rc4,key);
+    encriptador-> encriptador_particular = rc4;
+  }else{
+    printf("no existe el metodo introducido\n");
+    return resultado;
+  }
   encriptador->metodo = metodo;
-  encriptador-> encriptador_particular = encriptador_metodo;
-  return EXITO;
+  return resultado;
 }

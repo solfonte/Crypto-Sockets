@@ -42,20 +42,7 @@ int main(int argc, char const *argv[]) {
   rc4_t rc4;
 
   datos_servidor_init(argv,puerto,metodo,key);
-
-  if (strcmp(metodo,"cesar") == 0){
-    cesar_init(&cesar,key);
-    encriptador_init(&encriptador,(void*)&cesar,metodo,key);
-  }else if (strcmp(metodo,"vigenere") == 0){
-    vigenere_init(&vigenere,key);
-    encriptador_init(&encriptador,(void*)&vigenere,metodo,key);
-  }else if (strcmp(metodo,"rc4") == 0){
-    rc4_init(&rc4,key);
-    encriptador_init(&encriptador,(void*)&rc4,metodo,key);
-  }else{
-    printf("no existe el metodo introducido\n");
-    return 0;
-  }
+  encriptador_init(&encriptador,&cesar,&vigenere,&rc4,metodo,key);
 
   resultado = socket_bind_and_listen(&socket_aceptador, INADDR_ANY,puerto);
   if (resultado == ERROR){
