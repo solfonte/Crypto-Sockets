@@ -12,7 +12,7 @@ El cliente recibe la clave y el metodo a utilizar, ademas del archivo a cifrar p
 **implementacion del receptor o servidor**  
 El servidor recibe la clave y el metodo a utilizar. Mediante la conexion entre los sockets del cliente y el servidor, el servidor recibe la cadena cifrada y la descifra mediante un cryptosocket, pero en este caso el cryptosocket descifra e imprime por salida estandar la cadena descifrada.  
 
-**comentarios adicionales**  
+**decisiones de implementacion y comentarios adicionales**  
 -sobre la implementacion del TDA encriptador: este es un encriptador generico que sabe interpretar que metodo se debe utilizar. Este encapsula la eleccion del metodo a la hora de cifrar/descifrar. Se implemento de esta manera para poder separar los tres metodos de encriptacion en TDAs distintos y asi poder crear la estructura cryptosocket, que no necesita saber que metodo se utiliza para encriptar. De todas formas, no fue la eleccion mas optima a la hora de encriptar ya que este chequea para cada encriptacion, que metodo debe utilizar.  
 -sobre la declaracion de los metodos cesar, vigenere y rc4 en el main del receptor y en el main del cliente: se implemento de esta manera para poder utilizar el stack y no el heap, ya que no se que metodo se va a ingresar por parametros (dadas las tres posibilidades), y de esta forma declarandolos puedo elegir cual utilizar. En este caso se ocupa espacio de mas en el stack.  
 -se eligio arbitrariamente que el tamanio de la clave a utilizar tenga un maximo de 150.  
