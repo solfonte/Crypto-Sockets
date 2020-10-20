@@ -63,7 +63,7 @@ int main(int argc, char const *argv[]) {
     return 0;
   }
   cryptosocket_init(&cryptosocket,&peer,&encriptador);
-  socket_receive(&peer,_cryptosocket_recibir_mensaje,&cryptosocket);
+  socket_receive(&peer,cryptosocket_recibir_mensaje,&cryptosocket);
   cryptosocket_uninit(&cryptosocket);
   socket_uninit(&peer,SHUT_RD);
   socket_uninit(&socket_aceptador,SHUT_RD);

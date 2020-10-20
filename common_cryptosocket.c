@@ -9,14 +9,14 @@ int cryptosocket_init(cryptosocket_t* cryptosocket,
   return EXITO;
 }
 
-int _cryptosocket_enviar_mensaje(char *buffer,
+int cryptosocket_enviar_mensaje(char *buffer,
                                 size_t tamanio, void* callback_ctx){
   cryptosocket_t* cryptosocket = callback_ctx;
   encriptador_encriptar(cryptosocket->encriptador,buffer,tamanio,CIFRAR);
   return socket_send(cryptosocket->socket,buffer,tamanio);
 }
 
-int _cryptosocket_recibir_mensaje(char *buffer,
+int cryptosocket_recibir_mensaje(char *buffer,
                                 size_t tamanio,void* callback_ctx){
   cryptosocket_t* cryptosocket = callback_ctx;
   encriptador_encriptar(cryptosocket->encriptador,buffer,tamanio,DESCIFRAR);

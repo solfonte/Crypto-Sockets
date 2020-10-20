@@ -62,7 +62,7 @@ int main(int argc, char const *argv[]) {
     return 0;
   }
   cryptosocket_init(&cryptosocket,&client,&encriptador);
-  int res_iterar = lector_de_texto_iterar(&lector,_cryptosocket_enviar_mensaje,
+  int res_iterar = lector_de_texto_iterar(&lector,cryptosocket_enviar_mensaje,
                                           &cryptosocket);
   if (res_iterar == ERROR){
     printf("No se pudo enviar el mensaje correctamente\n");

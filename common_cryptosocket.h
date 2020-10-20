@@ -18,12 +18,12 @@ int cryptosocket_init(cryptosocket_t* cryptosocket,
 
 /*la funcion envia un mensaje a traves de un socket luego de
 encriptar. Devuelve ERROR si no pudo y EXITO si pudo*/
-int _cryptosocket_enviar_mensaje(char* buffer,
+int cryptosocket_enviar_mensaje(char* buffer,
                                 size_t tamanio, void *callback_ctx);
 
 /*la funcion recibe un mensaje a traves de un socket
  y lo desencripta. Devuelve ERROR si no pudo y EXITO si pudo*/
-int _cryptosocket_recibir_mensaje(char *buffer,
+int cryptosocket_recibir_mensaje(char *buffer,
                                 size_t tamanio,void* callback_ctx);
 /*la funcion desinicializa la estructura de cryptosocket
 recibida por parametro*/
