@@ -22,7 +22,6 @@
 
 void datos_cliente_uninit(char* host,char* puerto,
                           char* metodo,char* key){
-
 }
 
 int datos_cliente_init(char const* datos[],char* host,
@@ -51,8 +50,9 @@ int main(int argc, char const *argv[]) {
   rc4_t rc4;
 
   datos_cliente_init(argv,host,puerto,metodo,key);
-  int res_init = encriptador_init(&encriptador,&cesar,&vigenere,&rc4,metodo,key);
-  if(res_init == ERROR){
+  int res_init = encriptador_init(&encriptador,&cesar,&vigenere,
+                                  &rc4,metodo,key);
+  if (res_init == ERROR){
     datos_cliente_uninit(host,puerto,metodo,key);
     return 0;
   }
