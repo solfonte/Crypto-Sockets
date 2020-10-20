@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <errno.h>
 #include "common_socket.h"
 #define TAMANIO_RESPUESTA 64
 
@@ -32,7 +31,6 @@ int socket_bind_and_listen(socket_t* self,
     return ERROR;
   }
   if (socket_init(self,resultados) < 0){
-    printf("Fallo la conexion del socket: %s\n",strerror(errno));
     freeaddrinfo(resultados);
     return ERROR;
   }
@@ -40,11 +38,10 @@ int socket_bind_and_listen(socket_t* self,
   resultado_bind =  bind(self->fd, resultados->ai_addr,resultados->ai_addrlen);
   freeaddrinfo(resultados);
   if (resultado_bind == ERROR){
-    printf("Fallo el bind: %s\n",strerror(errno));
     socket_uninit(self,SHUT_RD);
     return ERROR;
   }
-  int resultado_listen = listen(self->fd, 10);
+  int resultado_listen = listen(self->fd, 10/**/);
   return resultado_listen;
 }
 
