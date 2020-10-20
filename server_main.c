@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <stdbool.h>//sacar despues
+#include <stdbool.h>
 #include "common_cryptosocket.h"
 #include <sys/types.h>
 #include <sys/socket.h>
