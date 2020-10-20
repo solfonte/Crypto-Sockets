@@ -18,3 +18,4 @@ El servidor recibe la clave y el metodo a utilizar. Mediante la conexion entre l
 -se eligio arbitrariamente que el tamanio de la clave a utilizar tenga un maximo de 150.  
 -para el caso del envio del mensaje cifrado, se decidio que el envio del mensaje a traves del socket se realice dentro del cryptosocket ya que este ultimo cifra y luego se envia el mensaje. Pero para el caso de recibir el mensaje cifrado a traves del socket, se decidio que este reciba un puntero a una funcion para asi ir desencriptando a medida que llega el mensaje. O sea, para el caso del socket_send se cifra y luego se envia, y para el caso del socket_receive es al revez: se recibe y despues se desencripta.  
 -se mantuvo el menor acoplamiento posible entre los TDA socket,cryptosocket y los distintos encriptadores.  
+-para el caso del servidor, como la funcion getaddrinfo solo devuelve un resultado posible para finalizar la conexion, no fue necesario iterar sobre cada resultado.  
