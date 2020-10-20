@@ -7,6 +7,8 @@
 #include "common_socket.h"
 #define TAMANIO_RESPUESTA 64
 
+/*el procedimiento inicializa la estructura
+addrinfo con los parametros recibidos*/
 static void hints_innit(struct addrinfo* hints,
                         int ai_family,int ai_socktype,
                         int ai_flags){
