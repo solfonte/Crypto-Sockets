@@ -19,9 +19,23 @@ void encriptador_encriptar(encriptador_t* encriptador,char* buffer
     encriptador_rc4((encriptador_rc4_t*)metodo_particular,buffer,tamanio);
   }
 }
-int encriptador_init(encriptador_t* encriptador,void* encriptador_metodo,
+int encriptador_init(encriptador_t* encriptador,encriptador_cesar_t* cesar,
+                    encriptador_vigenere_t* vigenere,encriptador_rc4_t* rc4,
                     char* metodo,void*key){
+  int resultado = EXITO;
+  if (strcmp(metodo,"cesar") == 0){
+    encriptador_cesar_init(cesar,key);
+    encriptador-> encriptador_particular = cesar;
+  }else if (strcmp(metodo,"vigenere") == 0){
+    encriptador_vigenere_init(vigenere,key);
+    encriptador-> encriptador_particular = vigenere;
+  }else if (strcmp(metodo,"rc4") == 0){
+    encriptador_rc4_init(rc4,key);
+    encriptador-> encriptador_particular = rc4;
+  }else{
+    printf("no existe el metodo introducido\n");
+    resultado = ERROR;
+  }
   encriptador->metodo = metodo;
-  encriptador-> encriptador_particular = encriptador_metodo;
-  return EXITO;
+  return resultado;
 }

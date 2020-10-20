@@ -19,6 +19,7 @@ typedef struct {
 
 void encriptador_encriptar(encriptador_t* encriptador,
                           char* buffer,size_t tamanio,int modo);
-int encriptador_init(encriptador_t* encriptador,void* encriptador_metodo,
+int encriptador_init(encriptador_t* encriptador,encriptador_cesar_t* cesar,
+                    encriptador_vigenere_t* vigenere,encriptador_rc4_t* rc4,
                     char* metodo,void*key);
 #endif

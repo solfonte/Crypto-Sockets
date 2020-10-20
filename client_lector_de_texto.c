@@ -7,9 +7,6 @@ int lector_de_texto_init(lector_de_texto_t* lector){
   return 0;
 }
 
-void lector_de_texto_uninit(lector_de_texto_t* lector){
-}
-
 int lector_de_texto_iterar(lector_de_texto_t* lector,
                           int (*lector_de_texto_callback)(char *chunk,
                           size_t chunk_size,
@@ -21,4 +18,7 @@ int lector_de_texto_iterar(lector_de_texto_t* lector,
     resultado = lector_de_texto_callback(buffer,leido,callback_ctx);
   }
   return (resultado == ERROR?ERROR:EXITO);
+}
+int lector_de_texto_uninit(lector_de_texto_t* lector){
+  return 0;
 }
