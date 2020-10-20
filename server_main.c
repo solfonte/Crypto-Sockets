@@ -43,7 +43,8 @@ int main(int argc, char const *argv[]) {
   encriptador_rc4_t rc4;
 
   datos_servidor_init(argv,puerto,metodo,key);
-  int res_init = encriptador_init(&encriptador,&cesar,&vigenere,&rc4,metodo,key);
+  int res_init = encriptador_init(&encriptador,&cesar,
+                                  &vigenere,&rc4,metodo,key);
   if (res_init == ERROR){
     return 0;
   }
