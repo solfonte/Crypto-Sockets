@@ -18,7 +18,7 @@
 /*la funcion desinicializa los datos recibidos
  por parametro*/
 int datos_servidor_uninit(char* puerto,
-                        char* metodo,char* key)){
+                        char* metodo,char* key){
   return 0;
 }
 
