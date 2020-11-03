@@ -21,4 +21,8 @@ int rc4_init(rc4_t* encriptador,void*key);
 
 /*la funcion encripta mediante el metodo rc4 la cadena recibida por parametro*/
 int rc4_encriptar(rc4_t* encriptador,char* cadena,size_t tamanio);
+
+/*la funcion desinicializa la estructura rc4_t*/
+int rc4_uninit(rc4_t* rc4);
+
 #endif

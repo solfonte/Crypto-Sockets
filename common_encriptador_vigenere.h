@@ -21,4 +21,8 @@ int vigenere_init(vigenere_t* encriptador,void*key);
 mediante el metodo vigenere la cadena recibida por parametro*/
 int vigenere_encriptar(vigenere_t* encriptador,
                         char* cadena,size_t tamanio,int modo);
+
+/*la funcion desinicializa la estructura vigenere_t*/
+int vigenere_uninit(vigenere_t* vigenere);
+
 #endif

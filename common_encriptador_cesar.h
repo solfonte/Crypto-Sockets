@@ -20,4 +20,7 @@ int cesar_init(cesar_t* encriptador,void*key);
 mediante el metodo cesar la cadena recibida por parametro*/
 int cesar_encriptar(cesar_t* encriptador,char* cadena,
                       size_t tamanio,int modo);
+/*la funcion desinicializa la estructura cesar_t*/
+int cesar_uninit(cesar_t* cesar);
+
 #endif

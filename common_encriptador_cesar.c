@@ -23,3 +23,7 @@ int cesar_encriptar(cesar_t* encriptador,char* cadena,
   }
   return EXITO;
 }
+
+int cesar_uninit(cesar_t* cesar){
+  return EXITO;
+}

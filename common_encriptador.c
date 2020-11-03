@@ -17,6 +17,8 @@ void encriptador_encriptar(encriptador_t* encriptador,char* buffer
                           buffer,tamanio,modo);
   }else if (strcmp(encriptador->metodo,"rc4") == 0){
     rc4_encriptar((rc4_t*)metodo_particular,buffer,tamanio);
+  }else{
+    printf("No se pudo encriptar, el metodo no es valido\n");
   }
 }
 int encriptador_init(encriptador_t* encriptador,cesar_t* cesar,
@@ -42,5 +44,12 @@ int encriptador_init(encriptador_t* encriptador,cesar_t* cesar,
 
 int encriptador_uninit(encriptador_t* encriptador,cesar_t* cesar,
                       vigenere_t* vigenere,rc4_t* rc4){
+  if (strcmp(encriptador->metodo,"cesar") == 0){
+    cesar_uninit(cesar);
+  }else if (strcmp(encriptador->metodo,"vigenere") == 0){
+    vigenere_uninit(vigenere);
+  }else if (strcmp(encriptador->metodo,"rc4") == 0){
+    rc4_uninit(rc4);
+  }
   return EXITO;
 }

@@ -123,6 +123,6 @@ int socket_receive(socket_t* self,
       bytes_recv = 0;
     }
   }
-  printf("\n");
+  //printf("\n");
   return EXITO;
 }

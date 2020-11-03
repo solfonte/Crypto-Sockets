@@ -29,3 +29,7 @@ int vigenere_encriptar(vigenere_t* encriptador,
   encriptador->key_donde_me_quede = &key_aux[j];
   return EXITO;
 }
+
+int vigenere_uninit(vigenere_t* vigenere){
+  return EXITO;
+}

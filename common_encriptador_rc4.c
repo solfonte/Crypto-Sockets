@@ -51,3 +51,7 @@ int rc4_init(rc4_t* encriptador,void*key){
 
   return EXITO;
 }
+
+int rc4_uninit(rc4_t* rc4){
+  return EXITO;
+}
